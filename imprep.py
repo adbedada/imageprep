@@ -1,6 +1,7 @@
 import os
 import re
 import glob
+import numpy as np
 from PIL import Image
 
 
@@ -25,6 +26,47 @@ def image_names(path_to_folder):
     return name_list
 
 
+def pad_image(image_file_name, new_size=(600, 600), save=False):
+
+    """
+    Pad Image with a given number of rows and columns
+    :param image_file_name: image file
+    :param new_size: now image size
+    :return:
+    """
+    # src: https://stackoverflow.com/questions/11142851/adding-borders-to-an-image-using-python/39321668#39321668
+    image = Image.open(image_file_name)
+    rows, cols = image.size
+
+    # Set number of pixels to expand to the left, top, right,
+    # and bottom, making sure to account for even or odd numbers
+
+    if rows % 2 == 0:
+        add_left = add_right = (new_size[0] - rows) // 2
+    else:
+        add_left = (new_size[0] - rows) // 2
+        add_right = ((new_size[0] - rows) // 2) + 1
+
+    if cols % 2 == 0:
+        add_top = add_bottom = (new_size[1] - cols) // 2
+    else:
+        add_top = (new_size[1] - cols[1]) // 2
+        add_bottom = ((new_size[1] - cols[1]) // 2) + 1
+
+    left = 0 - add_left
+    top = 0 - add_top
+    right = rows + add_right
+    bottom = cols + add_bottom
+
+    image = image.crop((left, top, right, bottom))
+
+    if save is True:
+
+        image.save('padded_output.png')
+
+    return image
+
+
 def resize_images_in_one_folder(path, output_size=256):
     """
      Re-sizes images in one folder
@@ -39,7 +81,6 @@ def resize_images_in_one_folder(path, output_size=256):
         if os.path.isfile(path+item):
             if item.endswith(".jpg"):
                 im = Image.open(path+item)
-
                 f, e = os.path.splitext(path+item)
 
                 imResize = im.resize((output_size,output_size), Image.ANTIALIAS)
@@ -47,7 +88,6 @@ def resize_images_in_one_folder(path, output_size=256):
 
 
 def resize_images_from_multiple_folders(path, output_size=256):
-
     """
     Re-sizes images in multiple folders and saves images in each respective folder
 
@@ -102,7 +142,6 @@ def reverse(size, box):
     dh = size[1]
     xmin = int(((dw * box[0]) * 2) - dw)
     ymin = int(((dh * box[1]) * 2) - dh)
-
     xmax = int((dw * box[2]) + xmin)
     ymax = int((dw * box[3]) + ymin)
 
@@ -123,12 +162,9 @@ def convert_to_yolo(input_label_path, output_label_path,output_images):
 
         if ".txt" in file:
             filename = file[:-4] + ".jpg"
-
             input_file = open(os.path.join(input_label_path + file))
             file = file[:-4] + '.txt'
-
             output_file = open(output_label_path + file, "w")
-
             file_path = output_images + filename
 
             g.write(file_path + "\n")
@@ -158,20 +194,21 @@ def list_path_to_files(path_to_folders, output_file_name, output_file_extension=
     Saves the path to files (images or labels) in one text file
 
     :param path_to_folders: path to the folder containing images or labels
-    :param output_file_name: name of output text file (include *txt extension when providing name)
+    :param output_file_name: name of output text file
     :param output_file_extension: file extension for the output
     :return: a text file with a list of path to files
     """
-
     # file extensions
     extension = ['jpg', 'png', 'tif', 'jpeg', 'tiff']
-
     txt = open(os.path.join(path_to_folders, output_file_name), 'w')
     counter = 0
     files = os.listdir(path_to_folders)
+
     for f in files:
         if f.split('.')[-1] in extension:
             title, ext = f.split('.')
             txt.write(path_to_folders + title + output_file_extension + "\n")
             counter = counter + 1
 
+
+pad_image('../sample/slice_Potsdam_ISPRS_top_potsdam_2_10_RGB_0_0_544_544_0.jpg', save=True)

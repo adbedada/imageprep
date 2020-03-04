@@ -21,5 +21,6 @@ def get_image_name(folder):
     output = imprep.image_names(folder)
     print(output)
 
+
 commands.add_command(list_path)
 commands.add_command(get_image_name)
