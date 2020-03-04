@@ -46,6 +46,12 @@ def resize_images_from_multiple_folders(path, output_size=256):
 
 
 def convert(size, box):
+    """
+    Conversion for Object detection labels to YOLO format
+    :param size: image size
+    :param box: bounding box
+    :return: yolo format labels
+    """
     dw = 1. / size[0]
     dh = 1. / size[1]
     x = (box[0] + box[1]) / 2.0
@@ -61,6 +67,12 @@ def convert(size, box):
 
 
 def reverse(size, box):
+    """
+    Reverse YOLO label format to anchors bbox
+    :param size: Size of the image
+    :param box: yolo labels
+    :return: Anchor bbox values
+    """
     dw = size[0]
     dh = size[1]
     xmin = int(((dw * box[0]) * 2) - dw)
@@ -73,6 +85,13 @@ def reverse(size, box):
 
 
 def convert_to_yolo(input_label_path, output_label_path,output_images):
+    """
+
+    :param input_label_path:
+    :param output_label_path:
+    :param output_images:
+    :return:
+    """
 
     g = open("output.txt", "w")
     for file in os.listdir(input_label_path):
@@ -132,4 +151,3 @@ def list_path_to_files(path_to_folders, output_file_name, output_file_extension=
             txt.write(path_to_folders + title + output_file_extension + "\n")
             counter = counter + 1
 
-list_path_to_files('../sample', 'sample.txt')
