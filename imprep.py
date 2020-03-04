@@ -1,14 +1,36 @@
 import os
 import re
+import glob
 from PIL import Image
 
 
-def resize_images_in_one_folder(path, output_size=256):
+def image_names(path_to_folder):
+    """
+    Reads raster files from multiple folders and returns their names
 
+    :param path_to_folder: directory path
+    :return: names of the raster files
+    """
+
+    # common image file extensions
+    extension = ['jpg', 'png', 'tif', 'jpeg', 'tiff']
+    files = os.listdir(path_to_folder)
+    name_list = []
+
+    for f in files:
+        if f.split('.')[-1] in extension:
+            title, ext = f.split('.')
+            name_list.append(title)
+
+    return name_list
+
+
+def resize_images_in_one_folder(path, output_size=256):
     """
      Re-sizes images in one folder
 
     :param path: path to the folder
+    :param output_size: size of the image output
     :return: re-sized images saved in the same folder
     """
     dirs = os.listdir(path)
@@ -28,6 +50,7 @@ def resize_images_from_multiple_folders(path, output_size=256):
 
     """
     Re-sizes images in multiple folders and saves images in each respective folder
+
     :param path: path to the folder containing all folders with images
     :return: re-sized images saved in their respective folder
     """
@@ -48,6 +71,7 @@ def resize_images_from_multiple_folders(path, output_size=256):
 def convert(size, box):
     """
     Conversion for Object detection labels to YOLO format
+
     :param size: image size
     :param box: bounding box
     :return: yolo format labels
@@ -69,8 +93,9 @@ def convert(size, box):
 def reverse(size, box):
     """
     Reverse YOLO label format to anchors bbox
+
     :param size: Size of the image
-    :param box: yolo labels
+    :param box: YOLO labels
     :return: Anchor bbox values
     """
     dw = size[0]
@@ -86,13 +111,13 @@ def reverse(size, box):
 
 def convert_to_yolo(input_label_path, output_label_path,output_images):
     """
+    Converts labels to YOLO
 
     :param input_label_path:
     :param output_label_path:
     :param output_images:
     :return:
     """
-
     g = open("output.txt", "w")
     for file in os.listdir(input_label_path):
 
@@ -130,12 +155,11 @@ def convert_to_yolo(input_label_path, output_label_path,output_images):
 
 def list_path_to_files(path_to_folders, output_file_name, output_file_extension='.png'):
     """
-    saves the list of directory path to files (images or labels) in one text file
+    Saves the path to files (images or labels) in one text file
 
     :param path_to_folders: path to the folder containing images or labels
     :param output_file_name: name of output text file (include *txt extension when providing name)
     :param output_file_extension: file extension for the output
-
     :return: a text file with a list of path to files
     """
 
