@@ -211,4 +211,115 @@ def list_path_to_files(path_to_folders, output_file_name, output_file_extension=
             counter = counter + 1
 
 
-pad_image('../sample/slice_Potsdam_ISPRS_top_potsdam_2_10_RGB_0_0_544_544_0.jpg', save=True)
+def image_as_array(file):
+    """
+     Reads image and returns a numpy array
+
+    :param file: image file name
+    :return: numpy array
+    """
+    img = Image.open(file)
+    img_arr = np.asarray(img)
+    return img_arr
+
+
+def images_as_array(path, ext='.jpg'):
+    """
+     Reads multiple images in a folder and returns a stacked numpy array
+
+    :param path: path to the folder containing the images
+    :param ext: file extension. defaulted to jpg
+    :return: stacked numpy array of images
+    """
+
+    dir = os.listdir(path)
+    img_arr_list = []
+    for item in dir:
+        if os.path.isfile(path + item):
+            if item.endswith(ext):
+                img_arr = image_as_array(path+item)
+                img_arr = np.expand_dims(img_arr, axis=0)
+                img_arr_list.append(img_arr)
+
+    img_stack = np.vstack(img_arr_list)
+
+    return img_stack
+
+
+def read_labels(input_path, ext='.txt'):
+
+    dir = os.listdir(input_path)
+    label_content = []
+    for item in dir:
+        if os.path.isfile(input_path+item):
+            if item.endswith(ext):
+                content = []
+                input_file = open(os.path.join(input_path + item))
+                for line in input_file.read().splitlines():
+                    content.append([line])
+                if len(content) !=1:
+                    label_content.append([item, content])
+                else:
+                    label_content.append([item,content[0]])
+    return label_content
+
+
+def create_id(path):
+    dir = os.listdir(path)
+    items =[]
+    num = 0
+    for item in dir:
+        num +=1
+        items.append([num, item])
+    return items
+
+
+def read_label_as_dict(file,ext='.txt'):
+    label_content = {}
+    if os.path.isfile(file):
+        if file.endswith(ext):
+            content = []
+            input_file = open(file)
+            for line in input_file.read().splitlines():
+                content.append([line])
+            if len(content) != 1:
+                label_content['name'] = file
+                label_content['bbox'] = content
+            else:
+                label_content['name'] = file
+                label_content['bbox'] = content[0]
+
+    return label_content
+
+
+def read_label_as_list(file, ext='.txt'):
+    label_content = []
+    if os.path.isfile(file):
+        if file.endswith(ext):
+            content = []
+            input_file = open(file)
+            file_name = file.split('/')[-1]
+            for line in input_file.read().splitlines():
+                content.append([line])
+            if len(content) != 1:
+                label_content.append([file_name, content])
+            else:
+                label_content.append([file_name, content[0]])
+
+    return label_content
+
+def coco_json(path):
+    obj ={}
+    # labels = read_labels(path)
+    # llist=[]
+    # for idx, value in enumerate(labels):
+    #     obj['id'] = idx
+    #     obj['item'] = value
+    #     #print(value[0])
+    # return obj
+    dir = os.listdir(path)
+    for file in dir:
+        #print(file)
+        label = read_label_as_list(path+file)
+        obj['name']=[]
+    return obj
