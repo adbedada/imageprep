@@ -25,5 +25,5 @@ file_path = '../../dataset/xview/Planes/yolo_planes_test_labels/79_45.txt'
 Y = imprep.read_labels(label_path)
 Yf = imprep.read_label_as_list(file_path)
 c = imprep.create_id(label_path)
-J = imprep.coco_json(label_path)
-print(J)
+J = imprep.coco_json(label_path,'data.json')
+#print(J)

@@ -1,6 +1,7 @@
 import os
 import re
 import glob
+import json
 import numpy as np
 from PIL import Image
 
@@ -261,6 +262,7 @@ def read_labels(input_path, ext='.txt'):
                     label_content.append([item, content])
                 else:
                     label_content.append([item,content[0]])
+
     return label_content
 
 
@@ -298,28 +300,45 @@ def read_label_as_list(file, ext='.txt'):
         if file.endswith(ext):
             content = []
             input_file = open(file)
-            file_name = file.split('/')[-1]
+            #file_name = file.split('/')[-1]
             for line in input_file.read().splitlines():
                 content.append([line])
             if len(content) != 1:
-                label_content.append([file_name, content])
+                label_content.append([file, content])
             else:
-                label_content.append([file_name, content[0]])
+                label_content.append([file, content[0]])
 
     return label_content
 
-def coco_json(path):
+
+
+def coco_json_names(path):
     obj ={}
-    # labels = read_labels(path)
-    # llist=[]
-    # for idx, value in enumerate(labels):
-    #     obj['id'] = idx
-    #     obj['item'] = value
-    #     #print(value[0])
-    # return obj
-    dir = os.listdir(path)
-    for file in dir:
-        #print(file)
-        label = read_label_as_list(path+file)
-        obj['name']=[]
+    labels = read_labels(path)
+    for idx, label in enumerate(labels):
+        names, bbox = (label[0],label[1])
+        return names, bbox
+
+
+def coco_json(path,output_file):
+    obj = {}
+    labels = read_labels(path)
+    for key, (old_key, value) in enumerate(labels):
+        nkey = key+1
+        obj[key] = [old_key,value]
+
+    with open(output_file, 'w') as f:
+        json.dump(obj,f)
+
     return obj
+    # for file in os.listdir(path):
+    #     file_path = path+file
+    #     obj['file_name'] = file_path
+    #     label = []
+    #     for idx, bbox in enumerate(read_label_as_list(file_path)):
+    #
+    #         obj['idx'] = idx
+
+    return obj
+
+
