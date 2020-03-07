@@ -5,6 +5,7 @@ __pycache__/
 .png
 .jpg
 .Python
+.pyc
 .json
 build/
 develop-eggs/

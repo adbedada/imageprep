@@ -6,23 +6,40 @@ import numpy as np
 from PIL import Image
 
 
-def image_names(path_to_folder):
+def image_names(path_to_folder, with_extension=True):
     """
     Reads raster files from multiple folders and returns their names
 
     :param path_to_folder: directory path
+    :param with_extension: file extension
     :return: names of the raster files
     """
 
-    # common image file extensions
-    extension = ['jpg', 'png', 'tif', 'jpeg', 'tiff']
-    files = os.listdir(path_to_folder)
     name_list = []
 
-    for f in files:
-        if f.split('.')[-1] in extension:
-            title, ext = f.split('.')
-            name_list.append(title)
+    # common image file extensions
+    extension = ['jpg', 'png', 'tif', 'jpeg', 'tiff']
+
+    if os.path.isdir(path_to_folder):
+        files = os.listdir(path_to_folder)
+        for f in files:
+            if f.split('.')[-1] in extension:
+
+                if with_extension is True:
+                    name_list.append(f)
+                else:
+                    title, ext = f.split('.')
+                    name_list.append(title)
+    else:
+        file = path_to_folder
+
+        if file.split('.')[-1] in extension:
+
+            if with_extension is True:
+                name_list.append(file)
+            else:
+                title, ext = file.split('.')
+                name_list.append(title)
 
     return name_list
 
@@ -212,7 +229,7 @@ def list_path_to_files(path_to_folders, output_file_name, output_file_extension=
             counter = counter + 1
 
 
-def image_as_array(file):
+def read_image(file, as_array=True):
     """
      Reads image and returns a numpy array
 
@@ -220,8 +237,9 @@ def image_as_array(file):
     :return: numpy array
     """
     img = Image.open(file)
-    img_arr = np.asarray(img)
-    return img_arr
+    if as_array is True:
+        img = np.asarray(img)
+    return img
 
 
 def images_as_array(path, ext='.jpg'):
@@ -300,7 +318,7 @@ def read_label_as_list(file, ext='.txt'):
         if file.endswith(ext):
             content = []
             input_file = open(file)
-            #file_name = file.split('/')[-1]
+
             for line in input_file.read().splitlines():
                 content.append([line])
             if len(content) != 1:
@@ -320,25 +338,77 @@ def coco_json_names(path):
         return names, bbox
 
 
-def coco_json(path,output_file):
+def image_json(path, output_file):
+    """
+     Create a COCO format JSON file
+             {
+          "type": "instances",
+          "images": [
+            {
+              "file_name": "0.jpg",
+              "height": 600,
+              "width": 800,
+              "id": 0
+            }
+          ]
+          }
+
+    :param path:
+    :param output_file:
+    :return:
+    """
     obj = {}
-    labels = read_labels(path)
-    for key, (old_key, value) in enumerate(labels):
-        nkey = key+1
-        obj[key] = [old_key,value]
+    f_name = []
+    img = Image.open(path)
+    name = img.filename
+    height, width = img.size
+
+    f_name.append(name)
+    obj['file_name'] = f_name[0]
+    obj['height'] = height
+    obj['width'] = width
 
     with open(output_file, 'w') as f:
-        json.dump(obj,f)
-
-    return obj
-    # for file in os.listdir(path):
-    #     file_path = path+file
-    #     obj['file_name'] = file_path
-    #     label = []
-    #     for idx, bbox in enumerate(read_label_as_list(file_path)):
-    #
-    #         obj['idx'] = idx
+        json.dump(obj, f)
 
     return obj
 
 
+def coco_json(path, output_file='data.json'):
+    obj = {}
+    extension = ['jpg', 'png', 'tif', 'jpeg', 'tiff']
+    img_list = []
+    if os.path.isdir(path):
+        files = os.listdir(path)
+
+        for f in files:
+
+            json_file = image_json(path+f, output_file)
+            img_list.append(json_file)
+
+    # obj['images'] = img_list
+
+    with open(output_file, 'w') as f:
+        json.dump(obj, f)
+
+    return img_list
+
+
+def coco_json_id(path,output_file='data.json'):
+    obj = {}
+    img_list = coco_json(path)
+
+    obj['images'] = img_list
+
+    with open(output_file, 'w') as f:
+        json.dump(obj, f)
+
+    for idx, v in enumerate(img_list):
+        v['id'] = idx
+
+    with open(output_file, 'w') as f:
+        json.dump(obj, f)
+
+    return obj
+
+    #return fid

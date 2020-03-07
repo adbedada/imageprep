@@ -1,8 +1,14 @@
 import imprep
 
-img_path = '../../dataset/xview/Planes/yolo_planes_test_images/'
-label_path = '../../dataset/xview/Planes/yolo_planes_test_labels/'
-file_path = '../../dataset/xview/Planes/yolo_planes_test_labels/79_45.txt'
+##### PC Dataset #######
+
+img_path = '../dataset/adv_ships_test_images/'
+label_path = '../dataset/adv_ships_test_labels/'
+file_path = '../dataset/adv_ships_test_images/1357_8.jpg'
+##### GPU Dataset ######
+# img_path = '../../dataset/xview/Planes/yolo_planes_test_images/'
+# label_path = '../../dataset/xview/Planes/yolo_planes_test_labels/'
+# file_path = '../../dataset/xview/Planes/yolo_planes_test_labels/79_45.txt'
 ################# file path list #######################
 # list_path_to_files('../sample', 'sample.txt')
 
@@ -25,5 +31,10 @@ file_path = '../../dataset/xview/Planes/yolo_planes_test_labels/79_45.txt'
 Y = imprep.read_labels(label_path)
 Yf = imprep.read_label_as_list(file_path)
 c = imprep.create_id(label_path)
-J = imprep.coco_json(label_path,'data.json')
-#print(J)
+J = imprep.coco_json_id(img_path,'data.json')
+# import os
+# for item in os.listdir(img_path):
+#     img = imprep.coco_json(img_path+item,'data.json')
+#     print(img)
+
+print(J)
