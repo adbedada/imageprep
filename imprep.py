@@ -8,7 +8,7 @@ from PIL import Image
 
 def image_names(path_to_folder, with_extension=True):
     """
-    Reads raster files from multiple folders and returns their names
+     Reads raster files from multiple folders and returns their names
 
     :param path_to_folder: directory path
     :param with_extension: file extension
@@ -47,7 +47,8 @@ def image_names(path_to_folder, with_extension=True):
 def pad_image(image_file_name, new_size=(600, 600), save=False):
 
     """
-    Pad Image with a given number of rows and columns
+     Pad Image with a given number of rows and columns
+
     :param image_file_name: image file
     :param new_size: now image size
     :return:
@@ -107,7 +108,7 @@ def resize_images_in_one_folder(path, output_size=256):
 
 def resize_images_from_multiple_folders(path, output_size=256):
     """
-    Re-sizes images in multiple folders and saves images in each respective folder
+     Re-sizes images in multiple folders and saves images in each respective folder
 
     :param path: path to the folder containing all folders with images
     :return: re-sized images saved in their respective folder
@@ -126,13 +127,13 @@ def resize_images_from_multiple_folders(path, output_size=256):
                 imResize.save(f + '.png', 'JPEG', quality=90)
 
 
-def convert(size, box):
+def yolo_label_format(size, box):
     """
-    Conversion for Object detection labels to YOLO format
+     Rule to convert anchors to YOLO label format
 
-    :param size: image size
-    :param box: bounding box
-    :return: yolo format labels
+    :param size: Height and width of the image as a list
+    :param box: the four corners of the bounding box as a list
+    :return: YOLO style labels
     """
     dw = 1. / size[0]
     dh = 1. / size[1]
@@ -148,9 +149,9 @@ def convert(size, box):
     return x, y, w, h
 
 
-def reverse(size, box):
+def reverse_yolo_to_anchor(size, box):
     """
-    Reverse YOLO label format to anchors bbox
+     Reverse YOLO label format to anchors bbox
 
     :param size: Size of the image
     :param box: YOLO labels
@@ -166,13 +167,13 @@ def reverse(size, box):
     return xmin, ymin, xmax, ymax
 
 
-def convert_to_yolo(input_label_path, output_label_path,output_images):
+def convert_to_yolo(input_label_path, image, output_label_path):
     """
-    Converts labels to YOLO
+     Converts labels to YOLO data format
 
-    :param input_label_path:
-    :param output_label_path:
-    :param output_images:
+    :param input_label_path: path to the folder containing the label files
+    :param image: path to the corresponding images
+    :param output_label_path: path to output folder for the YOLO labels
     :return:
     """
     g = open("output.txt", "w")
@@ -183,7 +184,7 @@ def convert_to_yolo(input_label_path, output_label_path,output_images):
             input_file = open(os.path.join(input_label_path + file))
             file = file[:-4] + '.txt'
             output_file = open(output_label_path + file, "w")
-            file_path = output_images + filename
+            file_path = image + filename
 
             g.write(file_path + "\n")
             for line in input_file.readlines():
@@ -198,7 +199,7 @@ def convert_to_yolo(input_label_path, output_label_path,output_images):
                     b = (xmin, xmax, ymin, ymax)
                     im = Image.open(file_path)
                     size = im.size
-                    bb = convert(size, b)
+                    bb = yolo_label_format(size, b)
 
                     output_file.write("0" + " " + " ".join([str(a) for a in bb]) + "\n")
 
@@ -209,15 +210,16 @@ def convert_to_yolo(input_label_path, output_label_path,output_images):
 
 def list_path_to_files(path_to_folders, output_file_name, output_file_extension='.png'):
     """
-    Saves the path to files (images or labels) in one text file
+     Saves the path to files (images or labels) in one text file
 
     :param path_to_folders: path to the folder containing images or labels
     :param output_file_name: name of output text file
-    :param output_file_extension: file extension for the output
+    :param output_file_extension: name of file extension for the output
     :return: a text file with a list of path to files
     """
-    # file extensions
+    # common file extensions
     extension = ['jpg', 'png', 'tif', 'jpeg', 'tiff']
+
     txt = open(os.path.join(path_to_folders, output_file_name), 'w')
     counter = 0
     files = os.listdir(path_to_folders)
@@ -229,11 +231,12 @@ def list_path_to_files(path_to_folders, output_file_name, output_file_extension=
             counter = counter + 1
 
 
-def read_image(file, as_array=True):
+def read_image(file, as_array = True):
     """
      Reads image and returns a numpy array
 
     :param file: image file name
+    :param as_array: option to read image to array.
     :return: numpy array
     """
     img = Image.open(file)
@@ -256,7 +259,7 @@ def images_as_array(path, ext='.jpg'):
     for item in dir:
         if os.path.isfile(path + item):
             if item.endswith(ext):
-                img_arr = image_as_array(path+item)
+                img_arr = read_image(path+item)
                 img_arr = np.expand_dims(img_arr, axis=0)
                 img_arr_list.append(img_arr)
 
@@ -266,10 +269,17 @@ def images_as_array(path, ext='.jpg'):
 
 
 def read_labels(input_path, ext='.txt'):
+    """
+     Read multiple label text files
 
-    dir = os.listdir(input_path)
+    :param input_path: path to the folder containing the labels text files
+    :param ext: name of file extension. defaulted to jpg
+    :return:
+    """
+
+    folder = os.listdir(input_path)
     label_content = []
-    for item in dir:
+    for item in folder:
         if os.path.isfile(input_path+item):
             if item.endswith(ext):
                 content = []
@@ -284,17 +294,14 @@ def read_labels(input_path, ext='.txt'):
     return label_content
 
 
-def create_id(path):
-    dir = os.listdir(path)
-    items =[]
-    num = 0
-    for item in dir:
-        num +=1
-        items.append([num, item])
-    return items
+def read_label_as_dict(file, ext='.txt'):
+    """
+     Reads a label file in text format as a dictionary
 
-
-def read_label_as_dict(file,ext='.txt'):
+    :param file: Name of the label file
+    :param ext: Name of the file extension. Defaulted to text
+    :return: A dictionary of the label
+    """
     label_content = {}
     if os.path.isfile(file):
         if file.endswith(ext):
@@ -313,6 +320,13 @@ def read_label_as_dict(file,ext='.txt'):
 
 
 def read_label_as_list(file, ext='.txt'):
+    """
+     Reads a label file in text format as a list
+
+    :param file: Name of the label file
+    :param ext: Name of the file extension. Defaulted to text
+    :return: Label as a list
+    """
     label_content = []
     if os.path.isfile(file):
         if file.endswith(ext):
@@ -329,37 +343,17 @@ def read_label_as_list(file, ext='.txt'):
     return label_content
 
 
-
-def coco_json_names(path):
-    obj ={}
-    labels = read_labels(path)
-    for idx, label in enumerate(labels):
-        names, bbox = (label[0],label[1])
-        return names, bbox
-
-
-def image_json(path, output_file):
+def image_metadata(image, save=False):
     """
-     Create a COCO format JSON file
-             {
-          "type": "instances",
-          "images": [
-            {
-              "file_name": "0.jpg",
-              "height": 600,
-              "width": 800,
-              "id": 0
-            }
-          ]
-          }
+     Create a meta data JSON file for an image
 
-    :param path:
-    :param output_file:
-    :return:
+    :param image: Path and name of the image
+    :param save: Option to Save metadata to a JSON file
+    :return: JSON object
     """
     obj = {}
     f_name = []
-    img = Image.open(path)
+    img = Image.open(image)
     name = img.filename
     height, width = img.size
 
@@ -368,47 +362,63 @@ def image_json(path, output_file):
     obj['height'] = height
     obj['width'] = width
 
-    with open(output_file, 'w') as f:
-        json.dump(obj, f)
+    if save is True:
+        output_file = 'data.json'
+
+        with open(output_file, 'w') as f:
+            json.dump(obj, f)
 
     return obj
 
 
-def coco_json(path, output_file='data.json'):
+def image_folder_metadata(path, save=False):
+    """
+     Creates a JSON metadata list for images in a folder
+
+    :param path: Path to the folder containing the images
+    :param save: Option to Save metadata to a JSON file
+    :return: The list or JSON file of metadata
+    """
     obj = {}
     extension = ['jpg', 'png', 'tif', 'jpeg', 'tiff']
     img_list = []
+
     if os.path.isdir(path):
         files = os.listdir(path)
-
         for f in files:
+            if f.split('.')[-1] in extension:
+                json_file = image_metadata(path+f)
+                img_list.append(json_file)
 
-            json_file = image_json(path+f, output_file)
-            img_list.append(json_file)
-
-    # obj['images'] = img_list
-
-    with open(output_file, 'w') as f:
-        json.dump(obj, f)
+    if save is True:
+        obj['images'] = img_list
+        output_file = 'data.json'
+        with open(output_file, 'w') as f:
+            json.dump(obj, f)
 
     return img_list
 
 
-def coco_json_id(path,output_file='data.json'):
+def image_folder_metadata_with_id(path,save=False):
+    """
+     Creates a JSON metadata with ID for images in a folder
+
+    :param path: Path to the folder containing the images
+    :param save: Option to Save metadata to a JSON file
+    :return: The list or JSON file of metadata
+    """
     obj = {}
-    img_list = coco_json(path)
+    img_list = image_folder_metadata(path)
 
     obj['images'] = img_list
-
-    with open(output_file, 'w') as f:
-        json.dump(obj, f)
 
     for idx, v in enumerate(img_list):
         v['id'] = idx
 
-    with open(output_file, 'w') as f:
-        json.dump(obj, f)
+    if save is True:
+        output_file = 'data.json'
+        with open(output_file, 'w') as f:
+            json.dump(obj, f)
 
-    return obj
+    return img_list
 
-    #return fid

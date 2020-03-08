@@ -30,11 +30,9 @@ file_path = '../dataset/adv_ships_test_images/1357_8.jpg'
 
 Y = imprep.read_labels(label_path)
 Yf = imprep.read_label_as_list(file_path)
-c = imprep.create_id(label_path)
-J = imprep.coco_json_id(img_path,'data.json')
-# import os
-# for item in os.listdir(img_path):
-#     img = imprep.coco_json(img_path+item,'data.json')
-#     print(img)
+J = imprep.image_metadata(file_path,save=True)
+Jf = imprep.image_folder_metadata(img_path, save=True)
+Jfi = imprep.image_folder_metadata_with_id(img_path, save=True)
 
-print(J)
+
+print(Jfi)
