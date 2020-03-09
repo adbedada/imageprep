@@ -1,4 +1,5 @@
-__pycache__/
+__pycache__
+__pycache__/*.pyc
 *.py[cod]
 *$py.class
 .pytest_cache
@@ -32,3 +33,4 @@ env/
 venv/
 .code
 .idea
+.DS_Store

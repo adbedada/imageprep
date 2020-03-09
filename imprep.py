@@ -174,7 +174,7 @@ def convert_to_yolo(input_label_path, image, output_label_path):
     :param input_label_path: path to the folder containing the label files
     :param image: path to the corresponding images
     :param output_label_path: path to output folder for the YOLO labels
-    :return:
+    :return: YOLO formatted label files
     """
     g = open("output.txt", "w")
     for file in os.listdir(input_label_path):
@@ -345,7 +345,7 @@ def read_label_as_list(file, ext='.txt'):
 
 def image_metadata(image, save=False):
     """
-     Create a meta data JSON file for an image
+     Create a meta data JSON object for an image
 
     :param image: Path and name of the image
     :param save: Option to Save metadata to a JSON file
@@ -377,7 +377,7 @@ def image_folder_metadata(path, save=False):
 
     :param path: Path to the folder containing the images
     :param save: Option to Save metadata to a JSON file
-    :return: The list or JSON file of metadata
+    :return: The list or JSON object of metadata
     """
     obj = {}
     extension = ['jpg', 'png', 'tif', 'jpeg', 'tiff']
@@ -405,15 +405,17 @@ def image_folder_metadata_with_id(path,save=False):
 
     :param path: Path to the folder containing the images
     :param save: Option to Save metadata to a JSON file
-    :return: The list or JSON file of metadata
+    :return: The list or JSON object of metadata
     """
     obj = {}
     img_list = image_folder_metadata(path)
+
 
     obj['images'] = img_list
 
     for idx, v in enumerate(img_list):
         v['id'] = idx
+
 
     if save is True:
         output_file = 'data.json'
@@ -421,4 +423,83 @@ def image_folder_metadata_with_id(path,save=False):
             json.dump(obj, f)
 
     return img_list
+
+
+def bbox_reader(path):
+    """
+    {
+      "id": 1,
+      "bbox": [
+        100,
+        116,
+        140,
+        170
+      ],
+      "image_id": 0,
+      "segmentation": [],
+      "ignore": 0,
+      "area": 23800,
+      "iscrowd": 0,
+      "category_id": 0
+    }
+
+    :param path:
+    :return:
+    """
+    key_list = 'bbox'
+
+    label_list = read_label_as_list(path)
+    bbox = label_list[0][1]
+
+
+    return bbox
+
+
+def bbox_list(path):
+
+    bb_dict = []
+    key_list = ['bbox']
+    bb_list = bbox_reader(path)
+
+    for idx, bb in enumerate(bb_list):
+        idx += 1
+        if idx is not 1:
+            bb_dz = dict(zip(key_list, [[bb[0].strip()]]))
+            bb_dict.append(bb_dz)
+        else:
+            bb_dz = dict(zip(key_list, [bb]))
+
+        bb_dict.append(bb_dz)
+
+    return bb_dict
+
+
+def bbox_coco(path):
+    obj = {}
+    bb_dict = bbox_list(path)
+    # file_name = path.split('/')[-1].split('.')[0]
+    obj['images'] = bb_dict
+
+    for idx, value in enumerate(bb_dict):
+        idx +=1
+        value['id'] = idx
+
+        bb_list = value['bbox'][0].split(' ')
+        #print((bb_list))
+        #xmin = int(bb_list[1].strip())
+       # ymin = float(bb_list[1])
+        #xmax = float(bb_list[2])
+        #ymax = float(bb_list[3])
+        #print(xmin, ymin)
+        #w = xmax - xmin
+        #h = ymax - ymin
+
+        value["image_id"] = 0
+        value["segmentation"] = []
+        value["ignore"] = 0
+        #value["area"] = h*w
+        value["iscrowd"] = 0
+        value["category_id"] = 0
+
+    return bb_dict
 
