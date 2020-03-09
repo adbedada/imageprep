@@ -363,7 +363,7 @@ def image_metadata(image, save=False):
     obj['width'] = width
 
     if save is True:
-        output_file = 'data.json'
+        output_file = 'data/data.json'
 
         with open(output_file, 'w') as f:
             json.dump(obj, f)
@@ -424,82 +424,95 @@ def image_folder_metadata_with_id(path,save=False):
 
     return img_list
 
+import re
 
 def bbox_reader(path):
     """
-    {
-      "id": 1,
-      "bbox": [
-        100,
-        116,
-        140,
-        170
-      ],
-      "image_id": 0,
-      "segmentation": [],
-      "ignore": 0,
-      "area": 23800,
-      "iscrowd": 0,
-      "category_id": 0
-    }
+     Return the bounding box of a list with file name and bbox
 
-    :param path:
-    :return:
+    :param path: Directory path to the label text file
+    :return: Bounding box
     """
     key_list = 'bbox'
 
     label_list = read_label_as_list(path)
     bbox = label_list[0][1]
+    new_bbox = []
+    #
+    #     #r#e.sub(r"^\s+|\s+$", "", bb), sep = ''))
+    for idx, bb in enumerate(bbox):
+        nbb = bb[0].split()
 
+        new_bbox.append(nbb)
 
-    return bbox
+    return new_bbox
 
 
 def bbox_list(path):
+    """
+     Creates a dictionary with the bbox key
+
+    :param path: Directory path to the label text file
+    :return: List with a dict of bboxes
+    """
 
     bb_dict = []
     key_list = ['bbox']
     bb_list = bbox_reader(path)
-
+    #print(bb_list)
     for idx, bb in enumerate(bb_list):
-        idx += 1
-        if idx is not 1:
-            bb_dz = dict(zip(key_list, [[bb[0].strip()]]))
-            bb_dict.append(bb_dz)
-        else:
-            bb_dz = dict(zip(key_list, [bb]))
+        idx += 0
 
+        # if idx is not 0:
+        #
+        #     bb_dz = dict(zip(key_list, [[bb[0].strip()]]))
+        #     bb_dict.append(bb_dz)
+        #else:
+        bb_dz = dict(zip(key_list, [bb]))
         bb_dict.append(bb_dz)
 
     return bb_dict
 
 
-def bbox_coco(path):
-    obj = {}
-    bb_dict = bbox_list(path)
-    # file_name = path.split('/')[-1].split('.')[0]
-    obj['images'] = bb_dict
+def bbox_coco(path,save=False):
+    """
+     Creates a JSON object/Dict with Keys identifying bboxes
 
+    :param path: Directory path to the label text file
+    :return: Dictionary with COCO style data format
+    """
+    obj = {}
+
+    bb_dict = bbox_list(path)
+
+    bz = []
     for idx, value in enumerate(bb_dict):
         idx +=1
         value['id'] = idx
 
-        bb_list = value['bbox'][0].split(' ')
-        #print((bb_list))
-        #xmin = int(bb_list[1].strip())
-       # ymin = float(bb_list[1])
-        #xmax = float(bb_list[2])
-        #ymax = float(bb_list[3])
-        #print(xmin, ymin)
-        #w = xmax - xmin
-        #h = ymax - ymin
+        xmin = int(value['bbox'][0].strip('[]'))
+        ymin = int(value['bbox'][1].strip('[]'))
+        xmax = int(value['bbox'][2].strip('[]'))
+        ymax = int(value['bbox'][3].strip('[]'))
+
+        w = xmax - xmin
+        h = ymax - ymin
+        bz.append([w, h])
 
         value["image_id"] = 0
         value["segmentation"] = []
         value["ignore"] = 0
-        #value["area"] = h*w
+        value["area"] = h*w
         value["iscrowd"] = 0
         value["category_id"] = 0
+
+    obj["annotations"] = bb_dict
+
+    if save is True:
+
+        output_file = 'data/data.json'
+        with open(output_file, 'w') as f:
+            json.dump(obj, f)
 
     return bb_dict
 
