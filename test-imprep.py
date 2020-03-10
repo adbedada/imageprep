@@ -5,9 +5,9 @@ import imprep
 image_path = 'data/'
 label_path = 'data/'
 image_file = 'data/79_38.jpg'
-label_file2 = 'data/79_38.txt'
+label_file1 = 'data/79_38.txt'
 #label_file1 = "data/145_28.txt"
-label_file1 = "data/79_45.txt"
+#label_file1 = "data/79_38.txt"
 ##### GPU Dataset ######
 # img_path = '../../dataset/xview/Planes/yolo_planes_test_images/'
 # label_path = '../../dataset/xview/Planes/yolo_planes_test_labels/'
@@ -33,16 +33,20 @@ label_file1 = "data/79_45.txt"
 
 Y = imprep.read_labels(label_path)
 Yf = imprep.read_label_as_list(label_file1)
-#J = imprep.image_metadata(image_file,save=True)
-#Jf = imprep.image_folder_metadata(image_path, save=True)
-#Jfi = imprep.image_folder_metadata_with_id(image_path, save=True)
+J = imprep.image_metadata(image_file,save=True)
+Jf = imprep.image_folder_metadata(image_path, save=True)
+Jfi = imprep.image_folder_metadata_with_id(image_path, save=True)
 
 B = imprep.bbox_reader(label_file1)
 Bl = imprep.bbox_list(label_file1)
-Bc = imprep.bbox_coco(label_file1, save=True)
+Bc = imprep.bbox_coco(label_file1, save=False)
 #
-# print(J)
-# print(Jf)
-# print(Jfi)
+#print(J)
+#print(Jf)
+#print(Jfi)
+#print(Bc)
 
-print(Bc)
+
+CJ = imprep.coco_json_folder(image_file,label_file1)
+
+

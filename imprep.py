@@ -409,13 +409,10 @@ def image_folder_metadata_with_id(path,save=False):
     """
     obj = {}
     img_list = image_folder_metadata(path)
-
-
     obj['images'] = img_list
 
     for idx, v in enumerate(img_list):
         v['id'] = idx
-
 
     if save is True:
         output_file = 'data.json'
@@ -424,7 +421,6 @@ def image_folder_metadata_with_id(path,save=False):
 
     return img_list
 
-import re
 
 def bbox_reader(path):
     """
@@ -433,17 +429,17 @@ def bbox_reader(path):
     :param path: Directory path to the label text file
     :return: Bounding box
     """
-    key_list = 'bbox'
-
     label_list = read_label_as_list(path)
     bbox = label_list[0][1]
     new_bbox = []
-    #
-    #     #r#e.sub(r"^\s+|\s+$", "", bb), sep = ''))
-    for idx, bb in enumerate(bbox):
-        nbb = bb[0].split()
 
-        new_bbox.append(nbb)
+    for idx, bb in enumerate(bbox):
+        if len(bbox)!=1:
+            nbb = bb[0].split()
+            new_bbox.append(nbb)
+        else:
+            bbox = bbox[0].split()
+            new_bbox.append(bbox)
 
     return new_bbox
 
@@ -459,15 +455,9 @@ def bbox_list(path):
     bb_dict = []
     key_list = ['bbox']
     bb_list = bbox_reader(path)
-    #print(bb_list)
+
     for idx, bb in enumerate(bb_list):
         idx += 0
-
-        # if idx is not 0:
-        #
-        #     bb_dz = dict(zip(key_list, [[bb[0].strip()]]))
-        #     bb_dict.append(bb_dz)
-        #else:
         bb_dz = dict(zip(key_list, [bb]))
         bb_dict.append(bb_dz)
 

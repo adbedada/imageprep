@@ -1,1 +1,1 @@
-{"annotations": [{"bbox": ["0", "399", "133", "416"], "id": 1, "image_id": 0, "segmentation": [], "ignore": 0, "area": 2261, "iscrowd": 0, "category_id": 0}, {"bbox": ["161", "255", "239", "343"], "id": 2, "image_id": 0, "segmentation": [], "ignore": 0, "area": 6864, "iscrowd": 0, "category_id": 0}, {"bbox": ["336", "32", "416", "108"], "id": 3, "image_id": 0, "segmentation": [], "ignore": 0, "area": 6080, "iscrowd": 0, "category_id": 0}]}
+{"file_name": "data/79_38.jpg", "height": 416, "width": 416}
