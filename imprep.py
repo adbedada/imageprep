@@ -434,12 +434,22 @@ def bbox_reader(path):
     new_bbox = []
 
     for idx, bb in enumerate(bbox):
-        if len(bbox)!=1:
+
+        if len(bbox) != 1:
             nbb = bb[0].split()
+
+            for i in range(0, len(nbb)):
+                nbb[i] = int(nbb[i])
+
             new_bbox.append(nbb)
         else:
             bbox = bbox[0].split()
+            for i in range(0, len(bbox)):
+                bbox[i] = int(bbox[i])
+
             new_bbox.append(bbox)
+
+
 
     return new_bbox
 
@@ -480,10 +490,10 @@ def bbox_coco(path,save=False):
         idx +=1
         value['id'] = idx
 
-        xmin = int(value['bbox'][0].strip('[]'))
-        ymin = int(value['bbox'][1].strip('[]'))
-        xmax = int(value['bbox'][2].strip('[]'))
-        ymax = int(value['bbox'][3].strip('[]'))
+        xmin = int(value['bbox'][0])
+        ymin = int(value['bbox'][1])
+        xmax = int(value['bbox'][2])
+        ymax = int(value['bbox'][3])
 
         w = xmax - xmin
         h = ymax - ymin
@@ -505,4 +515,76 @@ def bbox_coco(path,save=False):
             json.dump(obj, f)
 
     return bb_dict
+
+
+def coco_json_folder(img_path, label_path):
+    image_meta = image_metadata(img_path)
+    label_meta = bbox_coco(label_path)
+    img_name = img_path.split('/')[-1].split('.')[0]
+    label_name = label_path.split('/')[-1].split('.')[0]
+
+    obj = {}
+    if img_name != label_name:
+        print("Files don't match.")
+    else:
+        obj['images'] = [image_meta]
+        obj['annotations'] = label_meta
+
+    print(obj)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
