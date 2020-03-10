@@ -1,1 +1,1 @@
-{"image": [{"file_name": "data/145_28.jpg", "height": 416, "width": 416}], "annotations": [{"bbox": [336, 398, 416, 416], "id": 1, "segmentation": [], "area": 1440, "category_id": 0}, {"bbox": [3, 91, 105, 163], "id": 2, "segmentation": [], "area": 7344, "category_id": 0}, {"bbox": [134, 31, 196, 95], "id": 3, "segmentation": [], "area": 3968, "category_id": 0}]}
+{"file_name": "data/145_28.jpg", "height": 416, "width": 416}

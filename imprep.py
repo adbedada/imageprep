@@ -96,7 +96,6 @@ def resize_images_in_one_folder(path, output_size=256):
     """
     dirs = os.listdir(path)
     for item in dirs:
-        print(dirs)
         if os.path.isfile(path+item):
             if item.endswith(".jpg"):
                 im = Image.open(path+item)
@@ -333,6 +332,7 @@ def read_label_as_list(file, ext='.txt'):
             content = []
             input_file = open(file)
 
+
             for line in input_file.read().splitlines():
                 content.append([line])
             if len(content) != 1:
@@ -439,12 +439,18 @@ def bbox_reader(path):
             nbb = bb[0].split()
 
             for i in range(0, len(nbb)):
-                nbb[i] = int(nbb[i])
+                try:
+                    nbb[i] = int(nbb[i])
+                except ValueError:
+                    nbb[i] = float(nbb[i])
             new_bbox.append(nbb)
         else:
             bbox = bbox[0].split()
             for i in range(0, len(bbox)):
-                bbox[i] = int(bbox[i])
+                try:
+                    bbox[i] = int(bbox[i])
+                except ValueError:
+                    bbox[i] = float(bbox[i])
             new_bbox.append(bbox)
 
     return new_bbox
