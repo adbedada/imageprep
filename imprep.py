@@ -511,6 +511,14 @@ def bbox_coco(path,save=False):
 
 
 def image_and_label_meta(img_path, label_path, save=False):
+    """
+     Creates JSON object for a single image and label file
+
+    :param img_path: Path to image
+    :param label_path: Path to the label file for the image
+    :param save: Option to save the object to JSON file
+    :return: JSON object
+    """
     image_meta = image_metadata(img_path)
     label_meta = bbox_coco(label_path)
     img_name = img_path.split('/')[-1].split('.')[0]
@@ -531,88 +539,48 @@ def image_and_label_meta(img_path, label_path, save=False):
     return obj
 
 
-def folder_metadata(img_path, label_path):
+def folder_metadata(img_path, label_path, label_ext='.txt'):
+    """
+     Creates a dictionary for images and labels in a folder
 
+    :param img_path: Path to the folder containing images
+    :param label_path: Path to the folder containing the corresponding labels
+    :param label_ext: file extension of the label files. Defaulted to .txt
+    :return: Python Dictionary
+    """
     img_ext = ['jpg', 'png', 'tif', 'jpeg', 'tiff']
-    label_ext = ['csv', 'txt']
+
     images_list = []
 
     if os.path.isdir(img_path):
         images = os.listdir(img_path)
-        obj = {}
         for image in images:
             if image.split('.')[-1] in img_ext:
-                #image_meta = image_metadata(img_path+image)
-                #image_name = image.split('.')[0]
-                # label_file_ext = label_path.split('/')[-1].split('.')[-1]
-                #label_name = image_name + '.txt'
-                #label_meta_file = bbox_coco(label_path+label_name)
-                #images_list.append([image_meta, label_meta])
                 image_file_path = img_path+image
                 image_name = image.split('.')[0]
-                label_file_path = label_path+image_name+'.txt'
+                label_file_path = label_path+image_name+label_ext
                 img_label_meta_folder = image_and_label_meta(image_file_path,label_file_path)
                 images_list.append(img_label_meta_folder)
 
     return images_list
 
 
-def coco_format_folder(img_path, label_path):
+def coco_format_folder(img_path, label_path, save=False):
+    """
+     Creates JSON object or a dictionary of images and labels with COCO format
+
+    :param img_path: Path to the folder containing images
+    :param label_path: Path to the folder containing the corresponding labels
+    :return: JSON object of a Dictionary depending on the option provided.
+    """
     obj ={}
     images_list = folder_metadata(img_path, label_path)
     obj['instances'] = images_list
     for idx, v in enumerate(images_list):
         v['image_id'] = idx
+
+    if save is True:
+        with open('dataset.json', 'w') as f:
+            json.dump(obj, f)
+
     return images_list
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
