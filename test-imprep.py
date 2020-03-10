@@ -4,9 +4,10 @@ import imprep
 
 image_path = 'data/'
 label_path = 'data/'
-image_file = 'data/79_38.jpg'
-label_file1 = 'data/79_38.txt'
-#label_file1 = "data/145_28.txt"
+#image_file = 'data/79_38.jpg'
+image_file = 'data/145_28.jpg'
+#label_file1 = 'data/79_38.txt'
+label_file1 = "data/145_28.txt"
 #label_file1 = "data/79_38.txt"
 ##### GPU Dataset ######
 # img_path = '../../dataset/xview/Planes/yolo_planes_test_images/'
@@ -46,7 +47,9 @@ Bc = imprep.bbox_coco(label_file1, save=False)
 #print(Jfi)
 #print(Bc)
 
-
-CJ = imprep.coco_json_folder(image_file,label_file1)
-
+CJ = imprep.image_and_label_meta(image_file,label_file1, save=True)
+FM = imprep.folder_metadata(image_path, label_path)
+CF = imprep.coco_format_folder(image_path, label_path)
+print(FM)
+print(CF)
 

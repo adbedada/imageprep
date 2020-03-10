@@ -440,16 +440,12 @@ def bbox_reader(path):
 
             for i in range(0, len(nbb)):
                 nbb[i] = int(nbb[i])
-
             new_bbox.append(nbb)
         else:
             bbox = bbox[0].split()
             for i in range(0, len(bbox)):
                 bbox[i] = int(bbox[i])
-
             new_bbox.append(bbox)
-
-
 
     return new_bbox
 
@@ -499,11 +495,8 @@ def bbox_coco(path,save=False):
         h = ymax - ymin
         bz.append([w, h])
 
-        value["image_id"] = 0
         value["segmentation"] = []
-        value["ignore"] = 0
         value["area"] = h*w
-        value["iscrowd"] = 0
         value["category_id"] = 0
 
     obj["annotations"] = bb_dict
@@ -517,7 +510,7 @@ def bbox_coco(path,save=False):
     return bb_dict
 
 
-def coco_json_folder(img_path, label_path):
+def image_and_label_meta(img_path, label_path, save=False):
     image_meta = image_metadata(img_path)
     label_meta = bbox_coco(label_path)
     img_name = img_path.split('/')[-1].split('.')[0]
@@ -527,15 +520,50 @@ def coco_json_folder(img_path, label_path):
     if img_name != label_name:
         print("Files don't match.")
     else:
-        obj['images'] = [image_meta]
+        obj['image'] = [image_meta]
         obj['annotations'] = label_meta
 
-    print(obj)
+    if save is True:
+        output_file = 'data/data.json'
+        with open(output_file,'w') as f:
+            json.dump(obj,f)
+
+    return obj
 
 
+def folder_metadata(img_path, label_path):
+
+    img_ext = ['jpg', 'png', 'tif', 'jpeg', 'tiff']
+    label_ext = ['csv', 'txt']
+    images_list = []
+
+    if os.path.isdir(img_path):
+        images = os.listdir(img_path)
+        obj = {}
+        for image in images:
+            if image.split('.')[-1] in img_ext:
+                #image_meta = image_metadata(img_path+image)
+                #image_name = image.split('.')[0]
+                # label_file_ext = label_path.split('/')[-1].split('.')[-1]
+                #label_name = image_name + '.txt'
+                #label_meta_file = bbox_coco(label_path+label_name)
+                #images_list.append([image_meta, label_meta])
+                image_file_path = img_path+image
+                image_name = image.split('.')[0]
+                label_file_path = label_path+image_name+'.txt'
+                img_label_meta_folder = image_and_label_meta(image_file_path,label_file_path)
+                images_list.append(img_label_meta_folder)
+
+    return images_list
 
 
-
+def coco_format_folder(img_path, label_path):
+    obj ={}
+    images_list = folder_metadata(img_path, label_path)
+    obj['instances'] = images_list
+    for idx, v in enumerate(images_list):
+        v['image_id'] = idx
+    return images_list
 
 
 
