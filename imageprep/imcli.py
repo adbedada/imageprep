@@ -1,7 +1,6 @@
 
 import click
-import imprep
-
+from imageprep import utils
 
 @click.group()
 def commands():
@@ -12,13 +11,13 @@ def commands():
 @click.option('-d', '--directory-to-files', 'directory')
 @click.option('-f', '-text-file', 'file')
 def list_path(directory, file):
-    imprep.list_path_to_files(directory, file)
+    utils.list_path_to_files(directory, file)
 
 
 @click.command()
 @click.option('-f', '--folder-containing-images', 'folder')
 def get_image_name(folder):
-    output = imprep.image_names(folder)
+    output = utils.image_names(folder)
     print(output)
 
 

@@ -1,5 +1,5 @@
 __pycache__
-__pycache__/*.pyc
+*.pyc
 *.py[cod]
 *$py.class
 .pytest_cache
