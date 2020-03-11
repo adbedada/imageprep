@@ -21,9 +21,17 @@ Currently, the program supports image processing for YOLO and COCO based formats
    ```python
 from imageprep import utils
   
-  
+"""
+data
+├── images
+    ├── 145_28.jpg
+    ├── 79_38.jpg
+    ├── 79_45.jpg
+    └── 80_7.jpg
+
+"""
 # folder containing images
-image_path = "path/to/image/directory/"
+image_path = "data/images/"
 
 # run task
 list_of_names = utils.image_names(image_path)
@@ -33,16 +41,34 @@ print(list_of_names)
 ```
 Output:
 ```python
+
 ['145_28.jpg', '79_38.jpg', '79_45.jpg', '80_7.jpg']
+
 ```   
       
-   Get image names 
+Get image names 
    ```python
 from imageprep import coco
 
+"""
+Folder Structure of moc dataset
+
+data
+├── images
+│   ├── 145_28.jpg
+│   ├── 79_38.jpg
+│   ├── 79_45.jpg
+│   └── 80_7.jpg
+└── labels
+    ├── 145_28.txt
+    ├── 79_38.txt
+    ├── 79_45.txt
+    └── 80_7.txt
+"""
+
 # folder containing images
-image_path = "path/to/image/directory/"
-label_path = "path/to/label/directory/"
+image_path = "data/images/"
+label_path = "data/labels/"
 
 # run task
 coco_dict = coco.coco_format_folder(image_path, label_path)
@@ -52,10 +78,9 @@ print(coco_dict)
 Output:
      
    ```json
-[
-  {
+[ {
       "image":[{
-            "file_name":"data/145_28.jpg",
+            "file_name":"data/images/145_28.jpg",
             "height":416,
             "width":416
          }],
@@ -85,7 +110,7 @@ Output:
    },
    {
       "image":[{
-            "file_name":"data/79_38.jpg",
+            "file_name":"data/images/79_38.jpg",
             "height":416,
             "width":416
          }],
@@ -99,7 +124,7 @@ Output:
       "image_id":1},
    {
       "image":[{
-            "file_name":"data/79_45.jpg",
+            "file_name":"data/images/79_45.jpg",
             "height":416,
             "width":416
          }],
@@ -127,7 +152,7 @@ Output:
       "image_id":2},
    {
       "image":[{
-            "file_name":"data/80_7.jpg",
+            "file_name":"data/images/80_7.jpg",
             "height":416,
             "width":416
          }],
