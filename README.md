@@ -1,14 +1,17 @@
 ### ImagePrep
 
-ImagePrep is collection of utility functions put together to assist in the process of preparing a data-set
-for DL/ML tasks. Certain models require folders and files to be prepared in a structure or format that 
-fits into their workflow and with ImagePrep one can organize images and labels or format their values,
-accordingly. 
-Currently, the tools supports image processing for YOLO and COCO style formats.
+ImagePrep is collection of basic utility functions put together to assist in the process of preparing a dataset
+for your next DL/ML task. 
+
+Certain models require folders and files to be prepared in a structure or format that 
+fits into their workflow and with ImagePrep you can organize images and labels or format their values 
+according their requirement. Currently, the tool simplifies the workaround for YOLO and COCO style data formats. 
+In its current state, the library is designed around object detection models, but hopefully, 
+functionality for other DL/ML tasks will be also added.
 
 Why ImagePrep? 
-- Cus I was tired of writing these functions in every project/folder I have
-- and, hoping that it gets easier to refer or customize them now that they are in one place
+- To refer and customize the functions now that they are in one place
+- And, in the long run, to make data preparation processes easier
  
 
 ##### Installation
@@ -173,8 +176,13 @@ Output:
       }
    ]
 ```
+##### Use case:
 
-##### Other functionalities included:
+The above output can easily be integrated with data registration steps 
+requried to train a Mask-RCNN model using [Detectron2](https://github.com/facebookresearch/detectron2). 
+Check out the example [here](./examples/Imprep_and_Detectron2.ipynb). 
+
+##### Other functionalities included in the library:
 - Create list of all bounding boxes
 - Stack images as numpy array
 - Convert Anchors to and from YOLO
