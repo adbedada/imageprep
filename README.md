@@ -1,23 +1,29 @@
 ### ImagePrep
 
-ImagePrep is a collection of utility functions supporting some of the most
-commonly used data formats for object detection models. It enables users to
-read and organize datasets in data formats required by the models. 
+ImagePrep is collection of utility functions put together to assist in the process of preparing a data-set
+for DL/ML tasks. Certain models require folders and files to be prepared in a structure or format that 
+fits into their workflow and with ImagePrep one can organize images and labels or format their values,
+accordingly. 
+Currently, the tools supports image processing for YOLO and COCO style formats.
 
-Currently, the program supports image processing for YOLO and COCO based formats.
+Why ImagePrep? 
+- Cus I was tired of writing these functions in every project/folder I have
+- and, hoping that it gets easier to refer or customize them now that they are in one place
  
 
 ##### Installation
-
+    
+    # clone repo
     git clone https://github.com/adbeda/imageprep
     
+    # install
     cd imageprep && pip install -e .
 
 
 
 ##### Usage
 
-   Get image names
+   Basic example 1: Get image names
    ```python
 from imageprep import utils
   
@@ -46,7 +52,7 @@ Output:
 
 ```   
       
-Get image names 
+Basic example 2: organize images and labels in COCO style  
    ```python
 from imageprep import coco
 
@@ -167,9 +173,21 @@ Output:
       }
    ]
 ```
-    
 
-##### Toy Dataset:
+##### Other functionalities included:
+- Create list of all bounding boxes
+- Stack images as numpy array
+- Convert Anchors to and from YOLO
+- Dump outputs to JSON file
+- Resize images within a single or multiple folders 
+ 
+ ...
 
-If you're interested, a [toy dataset](https://drive.google.com/file/d/1Suh0nw0IQUFpuFFiygkO1joUK4hXQSSV/view?usp=sharing)
-used for prototyping the functions is available for download.
+##### Current and future work
+ - Improve the CLI
+ - Add workflow for VOC style
+ - Clean up (!!!)
+ - Test against RCNN families
+ - Improve utils for Detectron2
+  
+
