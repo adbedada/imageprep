@@ -276,3 +276,36 @@ def coco_format_folder(img_path, label_path, save=False):
             json.dump(obj, f)
 
     return images_list
+
+
+def coco_for_detectron2(img_dir, label_dir, bbox_mode = 'BoxMode.XYXY_ABS'):
+    """
+     Creates Detectron2 compatible COCO data format
+
+    :param img_dir: Path to the image containing images
+    :param label_dir: Path to the corresponding labels
+    :param bbox_mode: Detectron2 specification for the value of bbox.
+    :return: Python dictionary
+    """
+    data_dict = coco_format_folder(img_dir, label_dir)
+    dataset_dicts = []
+    for idx, v in enumerate(data_dict):
+        record = {}
+        file_name = v['image'][0]['file_name']
+        height = v['image'][0]['height']
+        width = v['image'][0]['width']
+
+        record["file_name"] = file_name
+        record["height"] = height
+        record["width"] = width
+        record["image_id"] = idx
+
+        annotations = v['annotations']
+
+        for j in range(0, len(annotations)):
+            annotations[j]['bbox_mode'] = bbox_mode
+            annotations[j]['category_id'] = 0
+
+        record["annotations"] = annotations
+        dataset_dicts.append(record)
+    return dataset_dicts
