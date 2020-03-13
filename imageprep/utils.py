@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image
 
 
-def image_names(path_to_folder, with_extension=True):
+def image_names(path_to_folder, with_extension=False):
     """
      Reads raster files from multiple folders and returns their names
 
@@ -98,8 +98,8 @@ def resize_images_in_one_folder(path, output_size=256):
                 im = Image.open(path+item)
                 f, e = os.path.splitext(path+item)
 
-                imResize = im.resize((output_size,output_size), Image.ANTIALIAS)
-                imResize.save(f + '.jpg', 'JPEG', quality=90)
+                im_resize = im.resize((output_size,output_size), Image.ANTIALIAS)
+                im_resize.save(f + '.jpg', 'JPEG', quality=90)
 
 
 def resize_images_from_multiple_folders(path, output_size=256):
@@ -107,6 +107,7 @@ def resize_images_from_multiple_folders(path, output_size=256):
      Re-sizes images in multiple folders and saves images in each respective folder
 
     :param path: path to the folder containing all folders with images
+    :param output_size:
     :return: re-sized images saved in their respective folder
     """
 

@@ -278,7 +278,7 @@ def coco_format_folder(img_path, label_path, save=False):
     return images_list
 
 
-def coco_for_detectron2(img_dir, label_dir, bbox_mode = 'BoxMode.XYXY_ABS'):
+def coco_for_detectron2(img_dir, label_dir, bbox_mode='BoxMode.XYXY_ABS'):
     """
      Creates Detectron2 compatible COCO data format
 
@@ -308,4 +308,5 @@ def coco_for_detectron2(img_dir, label_dir, bbox_mode = 'BoxMode.XYXY_ABS'):
 
         record["annotations"] = annotations
         dataset_dicts.append(record)
+
     return dataset_dicts

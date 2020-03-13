@@ -1,13 +1,13 @@
 ### ImagePrep
 
-ImagePrep is collection of basic utility functions put together to assist in the process of preparing a dataset
-for your next DL/ML task. 
+ImagePrep is collection of basic utility functions that can help prepare a dataset for an 
+Object Detection task. 
 
-Certain models require folders and files to be prepared in a structure or format that 
-fits into their workflow and with ImagePrep you can organize images and labels or format their values 
-according their requirement. Currently, the tool simplifies the workaround for YOLO and COCO style data formats. 
-In its current state, the library is designed around object detection models, but hopefully, 
-functionality for other DL/ML tasks will be also added.
+Certain DL/ML libraries require a dataset to be organized in a structure or format that 
+fits into their workflow (e.g, COCO, YOLO, VOC formats). With ImagePrep, you can easily 
+prepare images and labels according to these data format requirements. Currently, 
+the tool simplifies the workaround COCO and YOLO style data preparation needs. 
+
 
 Why ImagePrep? 
 - To refer and customize the functions now that they are in one place
@@ -130,50 +130,8 @@ Output:
             "area":4352,
             "category_id":0
          }],
-      "image_id":1},
-   {
-      "image":[{
-            "file_name":"data/images/79_45.jpg",
-            "height":416,
-            "width":416
-         }],
-      "annotations":[{
-            "bbox":[0, 399, 133, 416],
-            "id":1,
-            "segmentation":[],
-            "area":2261,
-            "category_id":0
-         },
-         {
-            "bbox":[161, 255, 239, 343],
-            "id":2,
-            "segmentation":[],
-            "area":6864,
-            "category_id":0
-         },
-         {
-            "bbox":[336, 32, 416, 108],
-            "id":3,
-            "segmentation":[],
-            "area":6080,
-            "category_id":0
-         }],
-      "image_id":2},
-   {
-      "image":[{
-            "file_name":"data/images/80_7.jpg",
-            "height":416,
-            "width":416
-         }],
-      "annotations":[{
-            "bbox":[267, 223, 391, 319],
-            "id":1,
-            "segmentation":[],
-            "area":11904,
-            "category_id":0
-         }],
-      "image_id":3
-      }
+      "image_id":1}
+   ...
    ]
 ```
 ##### Use case:
