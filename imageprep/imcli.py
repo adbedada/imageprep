@@ -15,12 +15,17 @@ def commands():
 
 @click.command(context_settings=CONTEXT_SETTINGS)
 @click.option('-d', '--directory', 'directory', help="Path to the image")
-@click.option('-f', '-text-file', 'file', help="text file to save the list to")
-def create_path_file(image_folder, text_file):
+# @click.option('-f', '--text-file', 'file', is_flag=True, help="text file to save the list to")
+# @click.option("--save", 'save', default=False, help="option to save text file")
+def create_path_file(directory):
 
     """Writes out the path to images in a folder as a list"""
-
-    utils.list_path_to_files(image_folder, text_file)
+    # if save:
+    #     utils.list_path_to_files(directory,file="ds.txt", save=True)
+    #
+    # else:
+    output = utils.list_path_to_files(directory)
+    print(output)
 
 
 @click.command(context_settings=CONTEXT_SETTINGS)

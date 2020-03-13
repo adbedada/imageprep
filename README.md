@@ -131,9 +131,33 @@ Output:
             "category_id":0
          }],
       "image_id":1}
-   ...
+   
    ]
 ```
+
+#### Command Line
+
+```commandline
+imageprep -h
+
+Usage: imageprep [OPTIONS] COMMAND [ARGS]...
+
+  Dataset Preparation Helper
+
+Options:
+  -h, --help  Show this message and exit.
+
+Commands:
+  create-path-file  Writes out the path to images in a folder as a list
+  get-image-name    Prints out the names of images in a folder
+  resize-images     Resizes Image dimension to a size provided by user
+
+```
+
+#### 
+
+The CLI is still in early stage of development.
+
 ##### Use case:
 
 The above output can easily be integrated with data registration steps 
