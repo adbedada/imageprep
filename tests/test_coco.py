@@ -1,15 +1,15 @@
 from imageprep.coco import *
 
-image_path = '../data/'
-label_path = '../data/'
+image_path = '../data/images/'
+label_path = '../data/labels/'
 
 # one bbox in a single file
-image_file0 = 'data/79_38.jpg'
-label_file0 = '../data/79_38.txt'
+image_file0 = 'data/images/79_38.jpg'
+label_file0 = '../data/images/79_38.txt'
 
 # multiple bboxes in a single file
-image_file1 = '../data/145_28.jpg'
-label_file1 = '../data/145_28.txt'
+image_file1 = '../data/images/145_28.jpg'
+label_file1 = '../data/labels/145_28.txt'
 
 
 def test_bbox_list():

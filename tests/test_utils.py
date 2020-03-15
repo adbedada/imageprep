@@ -30,4 +30,4 @@ def test_read_labels():
 
 def test_list_path_to_files():
     output= list_path_to_files(image_path)
-    print("List of images"output)
+    print("List of images", output)
