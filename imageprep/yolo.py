@@ -1,4 +1,5 @@
 import os
+import re
 import json
 from PIL import Image
 from imageprep.utils import *
@@ -44,24 +45,24 @@ def reverse_yolo_to_anchor(size, box):
     return xmin, ymin, xmax, ymax
 
 
-def convert_to_yolo(input_label_path, image, output_label_path):
+def convert_to_yolo(image_path, input_path, output_path):
     """
      Converts labels to YOLO data format
 
-    :param input_label_path: path to the folder containing the label files
-    :param image: path to the corresponding images
-    :param output_label_path: path to output folder for the YOLO labels
-    :return: YOLO formatted label files
+    :param image_path: path to the folder containing images
+    :param input_path:  path to the corresponding labels
+    :param output_path: path to output folder for the YOLO labels
+    :return: YOLO style labels
     """
     g = open("output.txt", "w")
-    for file in os.listdir(input_label_path):
+    for file in os.listdir(input_path):
 
         if ".txt" in file:
             filename = file[:-4] + ".jpg"
-            input_file = open(os.path.join(input_label_path + file))
+            input_file = open(os.path.join(input_path + file))
             file = file[:-4] + '.txt'
-            output_file = open(output_label_path + file, "w")
-            file_path = image + filename
+            output_file = open(output_path + file, "w")
+            file_path = image_path + filename
 
             g.write(file_path + "\n")
             for line in input_file.readlines():
