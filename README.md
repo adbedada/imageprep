@@ -26,36 +26,9 @@ Why ImagePrep?
 
 ##### Usage
 
-   Basic example 1: Get image names
-   ```python
-from imageprep import utils
-  
-"""
-data
-├── images
-    ├── 145_28.jpg
-    ├── 79_38.jpg
-    ├── 79_45.jpg
-    └── 80_7.jpg
-
-"""
-# folder containing images
-image_path = "data/images/"
-
-# run task
-list_of_names = utils.image_names(image_path)
-
-print(list_of_names)
-
-```
-Output:
-```python
-
-['145_28.jpg', '79_38.jpg', '79_45.jpg', '80_7.jpg']
-
-```   
       
-Basic example 2: organize images and labels in COCO style  
+Example 1: Organize images and labels in COCO style 
+ 
    ```python
 from imageprep import coco
 
@@ -135,6 +108,67 @@ Output:
    ]
 ```
 
+Example 2: Convert absolute bounding box values to YOLO style formats
+ 
+   <b>X<sub>min</sub>Y<sub>min</sub>X<sub>max</sub>Y<sub>max</sub></b>  ----->   <b>X<sub>center</sub>Y<sub>center</sub> Width Height</i></b>  
+
+
+   ```python
+from imageprep import yolo
+
+"""
+# Input BBOX in absolute format (Xmin, Ymin, Xmax, Ymax)
+
+├── labels
+    ├── 145_28.txt
+    │   ├── 336 398 416 416
+    │   ├──   3  91 105 163
+    │   ├── 134  31 196  95
+    ├── 79_38.txt
+    │   ├── 257 306 325 370   
+    ├── 79_45.txt
+    │   ├──   0 399 133 416
+    │   ├── 161 255 239 343
+    │   ├── 336  32 416 108      
+    └── 80_7.txt
+        ├── 267 223 391 319
+
+"""
+
+# folder containing images
+image_path = "data/images/"
+label_path = "data/labels/" 
+output_path = "data/yolo_labels/"
+
+# run task and save text 
+yolo.convert_to_yolo(image_path, label_path, output_path)
+
+
+
+```
+Output:
+
+```python
+
+# Out BBOX in relative format (Xcenter, Ycenter, Width, Height)
+
+├── yolo_labels
+    ├── 145_28.txt
+    │   ├── 0.9038461538461539 0.9783653846153847 0.19230769230769232 0.04326923076923077
+    │   ├── 0.12980769230769232 0.30528846153846156 0.2451923076923077 0.17307692307692307
+    │   ├── 0.3966346153846154 0.1514423076923077 0.14903846153846154 0.15384615384615385
+    ├── 79_38.txt
+    │   ├── 0.6995192307692308 0.8125 0.16346153846153846 0.15384615384615385   
+    ├── 79_45.txt
+    │   ├── 0.15985576923076925 0.9795673076923077 0.3197115384615385 0.040865384615384616
+    │   ├── 0.4807692307692308 0.71875 0.1875 0.21153846153846156
+    │   ├── 0.9038461538461539 0.16826923076923078 0.19230769230769232 0.1826923076923077
+    └── 80_7.txt
+        ├── 0.7908653846153847 0.6514423076923077 0.2980769230769231 0.23076923076923078
+        
+
+```   
+ 
 #### Command Line
 
 ```commandline
