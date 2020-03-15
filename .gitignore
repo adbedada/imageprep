@@ -34,3 +34,5 @@ venv/
 .code
 .idea
 .DS_Store
+docs
+data/yolo_labels/
