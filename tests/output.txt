@@ -1,4 +1,4 @@
-../data/images/145_28.jpg
-../data/images/79_38.jpg
-../data/images/79_45.jpg
-../data/images/80_7.jpg
+/Users/eddiebedada/to24/ai_assurance/sprint_5/odmodels/imageprep/imageprep/imageprep/data/images/145_28.jpg
+/Users/eddiebedada/to24/ai_assurance/sprint_5/odmodels/imageprep/imageprep/imageprep/data/images/79_38.jpg
+/Users/eddiebedada/to24/ai_assurance/sprint_5/odmodels/imageprep/imageprep/imageprep/data/images/79_45.jpg
+/Users/eddiebedada/to24/ai_assurance/sprint_5/odmodels/imageprep/imageprep/imageprep/data/images/80_7.jpg
