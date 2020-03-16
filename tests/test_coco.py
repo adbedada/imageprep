@@ -15,6 +15,7 @@ label_file1 = '../data/labels/145_28.txt'
 def test_bbox_list():
     single_bbox_list = bbox_list(label_file0)
     print("Output for label file with one bbox: ", single_bbox_list)
+
     multiple_bbox_list = bbox_list(label_file1)
     print("Output for label file with bboxes: ", multiple_bbox_list)
 
