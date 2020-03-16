@@ -36,4 +36,6 @@ venv/
 .DS_Store
 github.token
 docs
-data/yolo_labels/
+imageprep/data/yolo_labels/
+.coverage
+.coverage.*

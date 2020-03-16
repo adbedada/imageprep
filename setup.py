@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Note: To use the 'upload' functionality of this file, you must:
-#   $ pip install twine
 
 import os
 from setuptools import find_packages, setup, Command
@@ -21,20 +19,21 @@ with open("README.md") as f:
 
 REQUIRED = [
     'pillow',
-    'click'
+    'click',
+    'numpy'
 ]
 
+EXTRA_REQUIRED = {
+    'test': ['mock',
+             'pytest',
+             'pytest-cov',
+             'codecov']}
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-about = {}
-about['__version__'] = VERSION
-
-
-# Where the magic happens:
 setup(
     name=NAME,
-    version=about['__version__'],
+    version=VERSION,
     description=DESCRIPTION,
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -42,8 +41,9 @@ setup(
     author_email=EMAIL,
     python_requires=REQUIRES_PYTHON,
     url=URL,
-    packages=find_packages(exclude=('tests','examples','data')),
+    packages=find_packages(exclude=('tests', 'examples')),
     install_requires=REQUIRED,
+    extras_require=EXTRA_REQUIRED,
     include_package_data=True,
     license='MIT',
     entry_points='''
@@ -61,22 +61,3 @@ setup(
         'Programming Language :: Python :: Implementation :: PyPy'
     ]
 )
-
-
-
-# from setuptools import setup
-#
-# REQUIRED = [
-#     'click>=7.0',
-#     'Pillow>=6.2.1'
-# ]
-# setup(
-#     name='imageprep',
-#     version=0.2,
-#     entry_points='''
-#         [console_scripts]
-#         imageprep=imcli:commands
-#         ''',
-#     py_modules=['imageprep','imcli'],
-#     install_requires=REQUIRED
-# )

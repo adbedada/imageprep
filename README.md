@@ -215,12 +215,11 @@ Check out the example [here](./examples/Imprep_and_Detectron2.ipynb).
 - Resize images within a single or multiple folders 
 - Convert relative (YOLO style) values to absolute ones
 - Customize a python dictionary of labels to a Detectron2 format
- and more
- ...
+ and more ...
+ 
 
 ##### TODO: current and future work
- - 
-    - Improve the CLI
+ - Improve the CLI
  - Add workflow for VOC style
  - Test against RCNN families
  - Create the Documentation
