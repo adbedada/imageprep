@@ -1,6 +1,10 @@
 ### ImagePrep
 
 
+[![GitHub license](https://img.shields.io/github/license/adbeda/imageprep?style=flat)](https://github.com/adbeda/imageprep/blob/master/LICENSE.txt)
+[![Package version](https://img.shields.io/badge/version-0.2-blue)]()
+
+
 ImagePrep is collection of basic utility functions that can help prepare a dataset for an 
 Object Detection task. 
 
@@ -172,8 +176,6 @@ Output:
 #### Command Line
 
 ```commandline
-imageprep -h
-
 Usage: imageprep [OPTIONS] COMMAND [ARGS]...
 
   Dataset Preparation Helper
@@ -182,9 +184,11 @@ Options:
   -h, --help  Show this message and exit.
 
 Commands:
+  convert-to-yolo   Converts absolute bbox values to relative ones
   create-path-file  Writes out the path to images in a folder as a list
   get-image-name    Prints out the names of images in a folder
   resize-images     Resizes Image dimension to a size provided by user
+  
 
 ```
 

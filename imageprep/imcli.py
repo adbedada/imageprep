@@ -1,6 +1,7 @@
 
 import click
 from imageprep import utils
+from imageprep import yolo
 
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
@@ -52,6 +53,19 @@ def resize_images(directory, size):
     utils.resize(directory, size)
 
 
+@click.command(context_settings=CONTEXT_SETTINGS)
+@click.option('-i', '--image', 'image_path', help="Path to the folders containing images")
+@click.option('-l', '--label', 'label_path', help="Path to the corresponding labels")
+@click.option('-o', '--output', 'output_path', help="Path to output(YOLO labels) folder")
+def convert_to_yolo(image_path, label_path, output_path):
+
+    """ Converts absolute bbox values to relative ones """
+
+    yolo.convert_to_yolo(image_path, label_path, output_path)
+    print("Conversion Completed!")
+
+
 commands.add_command(resize_images)
 commands.add_command(create_path_file)
 commands.add_command(get_image_name)
+commands.add_command(convert_to_yolo)
