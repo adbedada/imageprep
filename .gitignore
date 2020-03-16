@@ -34,6 +34,6 @@ venv/
 .code
 .idea
 .DS_Store
-.token
+github.token
 docs
 data/yolo_labels/

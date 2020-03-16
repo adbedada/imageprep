@@ -14,18 +14,24 @@ prepare images and labels according to these data format requirements. Currently
 the tool simplifies the workaround COCO and YOLO style data preparation needs. 
 
 
-Why ImagePrep? 
+<b>Why ImagePrep?</b>
 - To refer and customize the functions now that they are in one place
-- And, in the long run, to make data preparation processes easier
+- And, in the long run, to make data preparation tasks easier
  
 
 ##### Installation
     
     # clone repo
-    git clone https://github.com/adbeda/imageprep
+    git clone https://github.com/adbeda/imageprep    
+    
     
     # install
     cd imageprep && pip install -e .
+    
+    # or simply install with:
+    python -m pip install 'git+https://github.com/adbeda/imageprep.git' 
+    
+        
 
 
 
@@ -38,7 +44,7 @@ Example 1: Organize images and labels in COCO style
 from imageprep import coco
 
 """
-Folder Structure of moc dataset
+Folder Structure of a moc dataset
 
 data
 ├── images
@@ -155,7 +161,7 @@ Output:
 
 ```python
 
-# Out BBOX in relative format (Xcenter, Ycenter, Width, Height)
+# Output BBOX in relative format (Xcenter, Ycenter, Width, Height)
 
 ├── yolo_labels
     ├── 145_28.txt
@@ -203,19 +209,21 @@ requried to train a Mask-RCNN model using [Detectron2](https://github.com/facebo
 Check out the example [here](./examples/Imprep_and_Detectron2.ipynb). 
 
 ##### Other functionalities included in the library:
-- Create list of all bounding boxes
-- Stack images as numpy array
-- Convert Anchors to and from YOLO
-- Dump outputs to JSON file
+- Create a  list of all bounding boxes
+- Stack and save images as numpy array
+- Dump labels as JSON objects to a file
 - Resize images within a single or multiple folders 
- 
+- Convert relative (YOLO style) values to absolute ones
+- Customize a python dictionary of labels to a Detectron2 format
+ and more
  ...
 
-##### Current and future work
- - Improve the CLI
+##### TODO: current and future work
+ - 
+    - Improve the CLI
  - Add workflow for VOC style
- - Clean up (!!!)
  - Test against RCNN families
- - Improve utils for Detectron2
+ - Create the Documentation
+ - Improve integration for Detectron2 and YOLO
   
 
