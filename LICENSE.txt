@@ -1,4 +1,4 @@
-IT License
+MIT License
 
 Copyright (c) 2020, Adane Bedada
 All rights reserved.
