@@ -48,6 +48,7 @@ def pad_image(image_file_name, new_size=(600, 600), save=False):
 
     :param image_file_name: image file
     :param new_size: now image size
+    :param save: option to save output
     :return:
     """
     # src: https://stackoverflow.com/questions/11142851/adding-borders-to-an-image-using-python/39321668#39321668
