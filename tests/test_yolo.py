@@ -1,4 +1,4 @@
-
+import os
 from imageprep.yolo import *
 
 
@@ -8,8 +8,8 @@ image_path = os.path.join(cur_dir, 'data', 'images/')
 label_path = os.path.join(cur_dir, 'data', 'labels/')
 
 # output folder
-output_path = os.path.join(cur_dir, 'data', 'yolo_labels/')
-
+yolo_label = os.path.join(cur_dir, 'data', 'yolo_labels/')
+output_path = os.path.join(cur_dir, 'data', 'new_labels/')
 # one bbox in a single file
 image_file0 = os.path.join(cur_dir, 'data', 'images/79_38.jpg')
 label_file0 = os.path.join(cur_dir, 'data', 'images/79_38.txt')
@@ -20,7 +20,10 @@ label_file1 = os.path.join(cur_dir, 'data', 'labels/145_28.txt')
 
 
 def test_convert_to_yolo():
-    yolo_labels = convert_to_yolo(image_path, label_path, output_path)
+    yolo_labels = convert_to_yolo(image_path, label_path, yolo_label)
     print("Output for label file with one bbox: ", yolo_labels)
 
 
+def test_convert_from_yolo():
+    new_labels = convert_from_yolo(image_path, yolo_label, output_path)
+    print("Output for label file with one bbox: ", new_labels)
