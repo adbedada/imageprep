@@ -1,19 +1,19 @@
 import os
-from imageprep import data
 from imageprep.coco import *
 
-data_dir = path = os.path.dirname(data.__file__)
+
+cur_dir = path = os.path.dirname(__file__)
 #
-image_path = os.path.join(data_dir, 'images/')
-label_path = os.path.join(data_dir, 'labels/')
+image_path = os.path.join(cur_dir, 'data', 'images/')
+label_path = os.path.join(cur_dir, 'data', 'labels/')
 #
 # one bbox in a single file
-image_file0 = os.path.join(data_dir, 'images/79_38.jpg')
-label_file0 = os.path.join(data_dir, 'images/79_38.txt')
+image_file0 = os.path.join(cur_dir, 'data', 'images/79_38.jpg')
+label_file0 = os.path.join(cur_dir, 'data', 'images/79_38.txt')
 
 # multiple bboxes in a single file
-image_file1 = os.path.join(data_dir, 'images/145_28.jpg')
-label_file1 = os.path.join(data_dir, 'labels/145_28.txt')
+image_file1 = os.path.join(cur_dir, 'data', 'images/145_28.jpg')
+label_file1 = os.path.join(cur_dir, 'data', 'labels/145_28.txt')
 
 
 def test_bbox_list():
@@ -27,6 +27,11 @@ def test_bbox_list():
 def test_image_metadata():
     single_image = image_metadata(image_file1)
     print("Metadata for one image: ", single_image)
+
+
+def test_folder_metadata():
+    folder_meta = folder_metadata(image_path, label_path, label_ext='.txt')
+    print(folder_meta)
 
 
 def test_image_folder_metadata_with_id():
