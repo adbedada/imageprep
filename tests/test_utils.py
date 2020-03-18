@@ -22,7 +22,7 @@ def test_image_names():
 
 def test_read_label_as_dict():
     dict_label = read_label_as_dict(label_file0)
-    print("Label file as a pythondictionary: ", dict_label)
+    print("Label file as a python dictionary: ", dict_label)
 
 
 def test_read_labels():
