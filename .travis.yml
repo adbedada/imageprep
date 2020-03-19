@@ -18,7 +18,7 @@ install:
 # command to run tests
 script:
 #  - pytest
-  - python -m pytest --cov=./ --cov-report term-missing
+  - python -m pytest --cov-report term-missing --cov=./
 
 after_success:
   - codecov # submit coverage
