@@ -39,4 +39,3 @@ docs
 imageprep/data/yolo_labels/
 .coverage
 .coverage.*
-tests/data
