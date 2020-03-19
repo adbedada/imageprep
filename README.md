@@ -1,8 +1,8 @@
 ### ImagePrep
 
-
-[![GitHub license](https://img.shields.io/github/license/adbeda/imageprep?style=flat)](https://github.com/adbeda/imageprep/blob/master/LICENSE.txt)
+![GitHub](https://img.shields.io/github/license/adbeda/imageprep)
 [![Package version](https://img.shields.io/badge/version-0.2-blue)]()
+![Image](https://travis-ci.com/adbeda/imageprep.svg?branch=master)
 
 
 ImagePrep is collection of basic utility functions that can help prepare a dataset for an 
