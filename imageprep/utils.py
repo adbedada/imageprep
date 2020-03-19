@@ -241,3 +241,27 @@ def read_label_as_dict(file, ext='.txt'):
                 label_content['bbox'] = content[0]
 
     return label_content
+
+
+def read_label_as_list(file, ext='.txt'):
+    """
+     Reads a label file in text format as a list
+
+    :param file: Name of the label file
+    :param ext: Name of the file extension. Defaulted to text
+    :return: Label as a list
+    """
+    label_content = []
+    if os.path.isfile(file):
+        if file.endswith(ext):
+            content = []
+            input_file = open(file)
+
+            for line in input_file.read().splitlines():
+                content.append([line])
+            if len(content) != 1:
+                label_content.append([file, content])
+            else:
+                label_content.append([file, content[0]])
+
+    return label_content

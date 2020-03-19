@@ -1,7 +1,6 @@
 import os
 import json
 import itertools
-from PIL import Image
 from imageprep.utils import *
 
 
@@ -64,6 +63,7 @@ def bbox_coco(path, save=False):
      Creates a JSON object/Dict with Keys identifying bboxes
 
     :param path: Directory path to the label text file
+    :param save: option to save
     :return: Dictionary with COCO style data format
     """
     obj = {}
@@ -99,30 +99,6 @@ def bbox_coco(path, save=False):
     return bb_dict
 
 
-def read_label_as_list(file, ext='.txt'):
-    """
-     Reads a label file in text format as a list
-
-    :param file: Name of the label file
-    :param ext: Name of the file extension. Defaulted to text
-    :return: Label as a list
-    """
-    label_content = []
-    if os.path.isfile(file):
-        if file.endswith(ext):
-            content = []
-            input_file = open(file)
-
-            for line in input_file.read().splitlines():
-                content.append([line])
-            if len(content) != 1:
-                label_content.append([file, content])
-            else:
-                label_content.append([file, content[0]])
-
-    return label_content
-
-
 def image_metadata(image, save=False):
     """
      Create a meta data JSON object for an image
@@ -143,7 +119,7 @@ def image_metadata(image, save=False):
     obj['width'] = width
 
     if save is True:
-        output_file = 'data/data.json'
+        output_file = 'data.json'
 
         with open(output_file, 'w') as f:
             json.dump(obj, f)
@@ -179,7 +155,7 @@ def image_folder_metadata(path, save=False):
     return img_list
 
 
-def image_folder_metadata_with_id(path,save=False):
+def image_folder_metadata_with_id(path, save=False):
     """
      Creates a JSON metadata with ID for images in a folder
 
@@ -213,19 +189,35 @@ def folder_metadata(img_path, label_path, label_ext='.txt'):
     """
     img_ext = ['jpg', 'png', 'tif', 'jpeg', 'tiff']
 
-    images_list = []
+    images_and_labels_list = []
+    image_files = []
+    label_files = []
 
     if os.path.isdir(img_path):
         images = os.listdir(img_path)
         for image in images:
-            if image.split('.')[-1] in img_ext:
-                image_file_path = img_path+image
-                image_name = image.split('.')[0]
-                label_file_path = label_path+image_name+label_ext
-                img_label_meta_folder = image_and_label_meta(image_file_path,label_file_path)
-                images_list.append(img_label_meta_folder)
+            try:
+                if image.split('.')[-1] in img_ext:
+                        image_file_path = img_path+image
+                        image_name = image.split('.')[0]
+                        label_file_path = label_path+image_name+label_ext
+                        img_label_meta_folder = image_and_label_meta(image_file_path, label_file_path)
+                        image_files.append(image_file_path)
+                        label_files.append(label_file_path)
+                        images_and_labels_list.append(img_label_meta_folder)
 
-    return images_list
+            except ValueError:
+                # Exception for mis-match  in the number of files
+
+                if len(image_files) > len(label_files):
+
+                    print('There are more files in the images folder than in the labels folder!')
+                elif len(label_files) > len(image_files):
+                    print('There are more files in the labels folder than in the images folder!')
+                else:
+                    print("Check if files match in count!")
+
+    return images_and_labels_list
 
 
 def image_and_label_meta(img_path, label_path, save=False):
