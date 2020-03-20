@@ -3,10 +3,10 @@ from imageprep.coco import *
 
 
 cur_dir = path = os.path.dirname(__file__)
-#
+# path to images and labels
 image_path = os.path.join(cur_dir, 'data', 'images/')
 label_path = os.path.join(cur_dir, 'data', 'labels/')
-#
+
 # one bbox in a single file
 image_file0 = os.path.join(cur_dir, 'data', 'images/80_7.jpg')
 label_file0 = os.path.join(cur_dir, 'data', 'labels/80_7.txt')
@@ -56,8 +56,9 @@ def test_coco_format_folder():
     xmin_list = []
     for idx, x in enumerate(coco_format):
         anno = x['annotations']
-        xmin = anno[0]['bbox'][0]
-        xmin_list.append(xmin)
+        for j in range(0, len(anno)):
+            bbox = anno[0]
+            xmin_list.append(bbox['bbox'])
 
     assert first_image == '145_28.jpg'
-    assert xmin_list == [336, 257, 0, 267]
+    assert len(xmin_list) == 8
