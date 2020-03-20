@@ -222,7 +222,7 @@ Check out the example [here](./examples/Imprep_and_Detectron2.ipynb).
  - Improve the CLI
  - Add workflow for VOC style
  - Test against RCNN families
- - Create the Documentation
+ - Create a documentation
  - Improve integration for Detectron2 and YOLO
   
 
