@@ -38,5 +38,5 @@ github.token
 docs
 imageprep/data/yolo_labels/
 .coverage
-coverage.xml
 .coverage.*
+coverage.xml
