@@ -1,4 +1,5 @@
-from imageprep.utils import *
+import os
+from imageprep import utils
 
 
 cur_dir = path = os.path.dirname(__file__)
@@ -16,20 +17,20 @@ label_file1 = os.path.join(cur_dir, 'data', 'labels/145_28.txt')
 
 
 def test_image_names():
-    list_of_names = image_names(image_path)
+    list_of_names = utils.image_names(image_path)
     assert len(list_of_names) == 4
     print(list_of_names)
 
 
 def test_read_label_as_dict():
-    dict_label = read_label_as_dict(label_file1)
+    dict_label = utils.read_label_as_dict(label_file1)
     bboxes = dict_label['bbox']
     assert len(bboxes) == 3
     assert bboxes[0] == ['336 398 416 416']
 
 
 def test_read_labels():
-    folder_labels = read_labels(label_path)
+    folder_labels = utils.read_labels(label_path)
     assert len(folder_labels) == 4
     print(folder_labels[0])
 
