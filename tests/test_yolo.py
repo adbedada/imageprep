@@ -1,5 +1,5 @@
 import os
-from imageprep.yolo import *
+from imageprep import yolo
 
 
 cur_dir = path = os.path.dirname(__file__)
@@ -20,10 +20,10 @@ label_file1 = os.path.join(cur_dir, 'data', 'labels/145_28.txt')
 
 
 def test_convert_to_yolo():
-    yolo_labels = convert_to_yolo(image_path, label_path, yolo_label)
+    yolo_labels = yolo.convert_to_yolo(image_path, label_path, yolo_label)
     print("Output for label file with one bbox: ", yolo_labels)
 
 
 def test_convert_from_yolo():
-    new_labels = convert_from_yolo(image_path, yolo_label, output_path)
+    new_labels = yolo.convert_from_yolo(image_path, yolo_label, output_path)
     print("Output for label file with one bbox: ", new_labels)
