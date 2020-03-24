@@ -40,3 +40,4 @@ imageprep/data/yolo_labels/
 .coverage
 .coverage.*
 coverage.xml
+.cc_token
