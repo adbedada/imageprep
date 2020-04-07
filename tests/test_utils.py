@@ -2,7 +2,7 @@ import os
 from imageprep import utils
 
 
-cur_dir = path = os.path.dirname(__file__)
+cur_dir = os.path.dirname(__file__)
 # path to images and labels
 image_path = os.path.join(cur_dir, 'data', 'images/')
 label_path = os.path.join(cur_dir, 'data', 'labels/')
@@ -35,6 +35,6 @@ def test_read_labels():
     print(folder_labels[0])
 
 
-# def test_list_path_to_files():
-#     output= list_path_to_files(image_path)
-#     print("List of images", output)
+def test_list_path_to_files():
+    output = utils.list_path_to_files(image_path,'path.txt')
+    print("List of images", output)
