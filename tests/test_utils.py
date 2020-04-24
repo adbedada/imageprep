@@ -36,5 +36,5 @@ def test_read_labels():
 
 
 def test_list_path_to_files():
-    output = utils.list_path_to_files(image_path,'path.txt')
+    output = utils.list_path_to_files(image_path, 'path.txt')
     print("List of images", output)
