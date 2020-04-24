@@ -1,7 +1,7 @@
 import json
 import itertools
 from imageprep.utils import *
-
+from imageprep import yolo
 
 def bbox_reader(path):
     """
@@ -257,7 +257,7 @@ def coco_format_folder(img_path, label_path, save=False):
     :param save: Option to save object to file
     :return: JSON object of a Dictionary depending on the option provided.
     """
-    obj ={}
+    obj = {}
     images_list = folder_metadata(img_path, label_path)
     obj['instances'] = images_list
     for idx, v in enumerate(images_list):
@@ -281,6 +281,7 @@ def coco_for_detectron2(img_dir, label_dir, bbox_mode='BoxMode.XYXY_ABS'):
     """
     data_dict = coco_format_folder(img_dir, label_dir)
     dataset_dicts = []
+
     for idx, v in enumerate(data_dict):
         record = {}
         file_name = v['image'][0]['file_name']
@@ -310,6 +311,64 @@ def coco_for_detectron2(img_dir, label_dir, bbox_mode='BoxMode.XYXY_ABS'):
             annotations[j]['segmentation'] = [poly]
 
         record["annotations"] = annotations
+        dataset_dicts.append(record)
+
+    return dataset_dicts
+
+
+def coco_from_yolo_for_detectron2(img_dir, label_dir, bbox_mode='BoxMode.XYXY_ABS'):
+    """
+     Creates Detectron2 compatible COCO data format
+
+    :param img_dir: Path to the image containing images
+    :param label_dir: Path to the corresponding labels
+    :param bbox_mode: Detectron2 specification for the value of bbox.
+    :return: Python dictionary
+    """
+    data_dict = coco_format_folder(img_dir, label_dir)
+    dataset_dicts = []
+    for idx, v in enumerate(data_dict):
+
+        record = {}
+        file_name = v['image'][0]['file_name']
+        height = v['image'][0]['height']
+        width = v['image'][0]['width']
+
+        record["file_name"] = file_name
+        record["height"] = height
+        record["width"] = width
+        record["image_id"] = idx
+
+        annotations = v['annotations']
+        for j, b in enumerate(annotations):
+            category_id = b['bbox'][0]
+
+            xmin = b['bbox'][1]
+            ymin = b['bbox'][2]
+            xmax = b['bbox'][3]
+            ymax = b['bbox'][4]
+
+            new_bbox = [xmin, ymin, xmax, ymax]
+            abs_bbox = yolo.reverse_yolo_to_absolute((height, width), new_bbox)
+
+            nxmin = abs_bbox[0]
+            nymin = abs_bbox[1]
+            nxmax = abs_bbox[2]
+            nymax = abs_bbox[3]
+
+            poly = [
+                (nxmin, nymin), (nxmax, nymin),
+                (nxmax, nymax), (nxmin, nymax)
+            ]
+
+            poly = list(itertools.chain.from_iterable(poly))
+
+            annotations[j]['bbox'] = abs_bbox
+            annotations[j]['bbox_mode'] = bbox_mode
+            annotations[j]['category_id'] = category_id
+            annotations[j]['segmentation'] = [poly]
+
+            record["annotations"] = annotations
         dataset_dicts.append(record)
 
     return dataset_dicts
