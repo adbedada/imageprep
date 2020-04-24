@@ -1,7 +1,7 @@
 ### ImagePrep
 
 ![GitHub](https://img.shields.io/github/license/adbeda/imageprep)
-[![Package version](https://img.shields.io/badge/version-0.1-blue)](https://github.com/adbeda/imageprep)
+[![Package version](https://img.shields.io/badge/version-0.2-blue)](https://github.com/adbeda/imageprep)
 ![Image](https://travis-ci.com/adbeda/imageprep.svg?branch=master)
 [![codecov](https://codecov.io/gh/adbeda/imageprep/branch/master/graph/badge.svg)](https://codecov.io/gh/adbeda/imageprep)
 
