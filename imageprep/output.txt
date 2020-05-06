@@ -1,4 +1,0 @@
-/Users/eddiebedada/to24/car_counting/labelImg/balloon/Img_1.jpg
-/Users/eddiebedada/to24/car_counting/labelImg/balloon/Img_3.jpg
-/Users/eddiebedada/to24/car_counting/labelImg/balloon/Img_2.jpg
-/Users/eddiebedada/to24/car_counting/labelImg/balloon/Img_4.jpg

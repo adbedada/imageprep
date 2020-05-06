@@ -78,14 +78,25 @@ def convert_to_yolo(image_path, input_path, output_path):
             g.write(file_path + "\n")
             for line in input_file.readlines():
                 match = re.findall(r"(\d+)", line)
-
+                b_val = []
                 if match:
-                    xmin = float(match[0])
-                    ymin = float(match[1])
-                    xmax = float(match[2])
-                    ymax = float(match[3])
+                    if len(match) == 5:
+                        xmin = float(match[1])
+                        ymin = float(match[2])
+                        xmax = float(match[3])
+                        ymax = float(match[4])
 
-                    b = (xmin, xmax, ymin, ymax)
+                        b_val.append([xmin, ymin, xmax, ymax])
+
+                    else:
+                        xmin = float(match[0])
+                        ymin = float(match[1])
+                        xmax = float(match[2])
+                        ymax = float(match[3])
+                        b_val.append([xmin, ymin, xmax, ymax])
+
+                    b = (b_val[0][0], b_val[0][1], b_val[0][2], b_val[0][3])
+
                     im = Image.open(file_path)
                     size = im.size
                     bb = yolo_label_format(size, b)
