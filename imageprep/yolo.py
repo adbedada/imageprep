@@ -6,16 +6,19 @@ def yolo_label_format(size, box):
     """
      Rule to convert anchors to YOLO label format
 
+     Expects the box to have (xmin, ymin, xmax, ymax)
+
     :param size: Height and width of the image as a list
     :param box: the four corners of the bounding box as a list
     :return: YOLO style labels
     """
     dw = 1. / size[0]
     dh = 1. / size[1]
-    x = (box[0] + box[1]) / 2.0
-    y = (box[2] + box[3]) / 2.0
-    w = box[1] - box[0]
-    h = box[3] - box[2]
+
+    x = (box[0] + box[2]) / 2.0
+    y = (box[1] + box[3]) / 2.0
+    w = box[2] - box[0]
+    h = box[3] - box[1]
     x = x * dw
     w = w * dw
     y = y * dh
