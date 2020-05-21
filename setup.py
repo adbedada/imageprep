@@ -12,7 +12,7 @@ URL = 'https://github.com/adbeda/imageprep'
 EMAIL = 'adbedada@gmail.com'
 AUTHOR = 'Adane Bedada'
 REQUIRES_PYTHON = '>=3.6.0'
-VERSION = 0.21
+VERSION = 0.3
 
 with open("README.md") as f:
     long_description = f.read()
