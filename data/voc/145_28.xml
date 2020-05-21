@@ -1,1 +1,1 @@
-b'<annotations><folder>../data/images/</folder><filename>145_28.jpg</filename><path>../data/images/145_28.jpg</path></annotations>'
+<annotations><folder>../data/images/</folder><filename>145_28.jpg</filename><path>../data/images/145_28.jpg</path><source><database>unknown</database></source><size><width>416</width><height>416</height><depth>3</depth></size><segmented>0</segmented><object><bndbox><xmin>336</xmin><ymin>398</ymin><xmax>416</xmax><ymax>416</ymax></bndbox></object></annotations>

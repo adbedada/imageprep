@@ -50,21 +50,67 @@ img_arr = utils.images_as_array(img_path)
 files = os.listdir(img_path)
 for f in files:
 
-    im = utils.read_image(os.path.join(img_path,f))
-    width, height,depth = im.shape
+    im = utils.read_image(os.path.join(img_path, f))
+    width, height, depth = im.shape
 
     root = Element("annotations")
     folder = SubElement(root, "folder")
     folder.text = img_path
-
+    # filename
     fname = SubElement(root, "filename")
     fname.text = str(f)
-
+    # dir path
     path = SubElement(root, "path")
     path.text = str(os.path.join(img_path, f))
+    # image source
+    source = SubElement(root,"source")
+    database = SubElement(source,"database")
+    database.text = "unknown"
+    # dimensions
+    size = SubElement(root, "size")
+    w = SubElement(size, "width")
+    w.text = str(width)
+    h = SubElement(size, "height")
+    h.text = str(height)
+    d = SubElement(size, "depth")
+    d.text = str(depth)
+    # segmentation
+    segmented = SubElement(root, "segmented")
+    segmented.text = str(0)
+
+    object = SubElement(root, "object")
+    bndbox = SubElement(object,'bndbox')
+    x_min = SubElement(bndbox, "xmin")
+    y_min = SubElement(bndbox, "ymin")
+    x_max = SubElement(bndbox, "xmax")
+    y_max = SubElement(bndbox, "ymax")
+
+
+    txt_file = f[:-4] + '.txt'
+    input_file = open(os.path.join(label_path + txt_file))
+    #print(input_file)
+    bbox = []
+    for line in input_file.readlines():
+        match = line.strip().split(' ')
+
+        if match:
+            xmin = str(match[0])
+            ymin = str(match[1])
+            xmax = str(match[2])
+            ymax = str(match[3])
+
+            bbox.append([xmin, ymin, xmax, ymax])
+
+    #print(bbox[0][0])
+    x_min.text = str(bbox[0][0])
+    y_min.text = str(bbox[0][1])
+    x_max.text = str(bbox[0][2])
+    y_max.text = str(bbox[0][3])
+
+
 
     outfile = f[:-4] + '.xml'
-    tree = ElementTree.tostring(root)
+    tree = ElementTree.tostring(root, encoding="unicode")
     output_file = open(out_path + outfile, "w")
-    output_file.write(str(tree))
+    output_file.write(tree)
 
