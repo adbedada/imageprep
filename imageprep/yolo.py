@@ -120,7 +120,6 @@ def convert_from_yolo(image_path, input_path, output_path):
     :param output_path: path to output folder for the YOLO labels
     :return: YOLO style labels
     """
-    g = open("output.txt", "w")
     for file in os.listdir(input_path):
 
         if ".txt" in file:
@@ -130,11 +129,11 @@ def convert_from_yolo(image_path, input_path, output_path):
             output_file = open(output_path + file, "w")
             file_path = image_path + filename
 
-            g.write(file_path + "\n")
             for line in input_file.readlines():
                 match = line.strip().split(' ')
 
                 if match:
+                    objcls = match[0]
                     xcenter = float(match[1])
                     ycenter = float(match[2])
                     width = float(match[3])
@@ -145,8 +144,7 @@ def convert_from_yolo(image_path, input_path, output_path):
                     size = im.size
                     bb = reverse_yolo_to_absolute(size, b)
 
-                    output_file.write(" ".join([str(a) for a in list(bb)]) + "\n")
+                    output_file.write(objcls+ " " + " ".join([str(a) for a in list(bb)]) + "\n")
 
             output_file.close()
             input_file.close()
-    g.close()
