@@ -68,7 +68,7 @@ def convert_to_yolo(image_path, input_path, output_path):
     :param output_path: path to output folder for the YOLO labels
     :return: YOLO style labels
     """
-    g = open("output.txt", "w")
+
     for file in os.listdir(input_path):
 
         if ".txt" in file:
@@ -78,7 +78,7 @@ def convert_to_yolo(image_path, input_path, output_path):
             output_file = open(output_path + file, "w")
             file_path = image_path + filename
 
-            g.write(file_path + "\n")
+
             for line in input_file.readlines():
                 match = re.findall(r"(\d+)", line)
                 b_val = []
@@ -108,7 +108,6 @@ def convert_to_yolo(image_path, input_path, output_path):
 
             output_file.close()
             input_file.close()
-    g.close()
 
 
 def convert_from_yolo(image_path, input_path, output_path):
