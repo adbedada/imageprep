@@ -2,8 +2,8 @@ import os
 from imageprep import utils
 from xml.etree.ElementTree import Element, SubElement, tostring, XML
 from xml.etree import ElementTree
+from xml.dom import minidom
 
-from bs4 import BeautifulSoup
 #from ElementTree_pretty import prettify
 
 # x = your xml
@@ -77,40 +77,47 @@ for f in files:
     # segmentation
     segmented = SubElement(root, "segmented")
     segmented.text = str(0)
-
-    object = SubElement(root, "object")
-    bndbox = SubElement(object,'bndbox')
-    x_min = SubElement(bndbox, "xmin")
-    y_min = SubElement(bndbox, "ymin")
-    x_max = SubElement(bndbox, "xmax")
-    y_max = SubElement(bndbox, "ymax")
-
-
+    # bounding box
+    counter = 0
+    # input text filename
     txt_file = f[:-4] + '.txt'
-    input_file = open(os.path.join(label_path + txt_file))
-    #print(input_file)
+
     bbox = []
-    for line in input_file.readlines():
-        match = line.strip().split(' ')
+    # for line in input_file.readlines():
+    #     match = line.strip().split(' ')
+    with open(os.path.join(label_path + txt_file)) as input_file:
+        for idx, line in enumerate(input_file):
+            counter += 1
 
-        if match:
-            xmin = str(match[0])
-            ymin = str(match[1])
-            xmax = str(match[2])
-            ymax = str(match[3])
-
-            bbox.append([xmin, ymin, xmax, ymax])
-
-    #print(bbox[0][0])
-    x_min.text = str(bbox[0][0])
-    y_min.text = str(bbox[0][1])
-    x_max.text = str(bbox[0][2])
-    y_max.text = str(bbox[0][3])
+            object = SubElement(root, "object")
+            bndbox = SubElement(object, 'bndbox')
+            objname = SubElement(bndbox, "name")
 
 
+            x_min = SubElement(bndbox, "xmin")
+            y_min = SubElement(bndbox, "ymin")
+            x_max = SubElement(bndbox, "xmax")
+            y_max = SubElement(bndbox, "ymax")
+
+            match = line.strip().split(' ')
+            if match:
+                xmin = str(match[0])
+                ymin = str(match[1])
+                xmax = str(match[2])
+                ymax = str(match[3])
+
+                bbox.append([xmin, ymin, xmax, ymax])
+
+            x_min.text = str(bbox[idx][0])
+            y_min.text = str(bbox[idx][1])
+            x_max.text = str(bbox[idx][2])
+            y_max.text = str(bbox[idx][3])
 
     outfile = f[:-4] + '.xml'
     tree = ElementTree.tostring(root, encoding="unicode")
     output_file = open(out_path + outfile, "w")
+    tree = minidom.parseString(tree).toprettyxml(indent="   ")
     output_file.write(tree)
+
+
 
