@@ -1,10 +1,9 @@
-### ImagePrep
+![logo](./data/logo.svg)
 
 ![GitHub](https://img.shields.io/github/license/adbeda/imageprep)
 [![Package version](https://img.shields.io/badge/version-0.3-blue)](https://github.com/adbeda/imageprep)
 ![Image](https://travis-ci.com/adbeda/imageprep.svg?branch=master)
 [![codecov](https://codecov.io/gh/adbeda/imageprep/branch/master/graph/badge.svg)](https://codecov.io/gh/adbeda/imageprep)
-
 
 
 ImagePrep is a tool for creating, converting and formatting data labels for object detection tasks.
@@ -17,14 +16,19 @@ Pascal VOC and YOLO style format. Conversion to one from another is also support
 
 ##### Installation
     
+  stable version
+    
+    pip install imageprep
+  
+  latest version:
+  
     # clone repo
     git clone https://github.com/adbeda/imageprep    
-    
     
     # install
     cd imageprep && pip install -e .
     
-    # or simply install with:
+    # or simply with:
     python -m pip install 'git+https://github.com/adbeda/imageprep.git' 
     
         
