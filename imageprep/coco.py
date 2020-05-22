@@ -3,6 +3,7 @@ import itertools
 from imageprep.utils import *
 from imageprep import yolo
 
+
 def bbox_reader(path):
     """
      Return the bounding box of a list with file name and bbox
@@ -68,32 +69,29 @@ def bbox_coco(path, save=False):
     obj = {}
 
     bb_dict = bbox_list(path)
-
+    new_bb_dict = []
     bz = []
     for idx, value in enumerate(bb_dict):
         idx +=1
         value['id'] = idx
+        obj_class = int(value['bbox'][0])
 
-        xmin = int(value['bbox'][0])
-        ymin = int(value['bbox'][1])
-        xmax = int(value['bbox'][2])
-        ymax = int(value['bbox'][3])
+        xmin = float(value['bbox'][1])
+        ymin = float(value['bbox'][2])
+        xmax = float(value['bbox'][3])
+        ymax = float(value['bbox'][4])
+
+        new_bb_dict = [xmin, ymin,xmax,ymax]
 
         w = xmax - xmin
         h = ymax - ymin
         bz.append([w, h])
 
+        img_area = h*w
         value["segmentation"] = []
-        value["area"] = h*w
-        value["category_id"] = 0
-
-    obj["annotations"] = bb_dict
-
-    if save is True:
-
-        output_file = 'data/data.json'
-        with open(output_file, 'w') as f:
-            json.dump(obj, f)
+        value['area'] = img_area
+        value['bbox'] = new_bb_dict
+        value['category_id'] = obj_class
 
     return bb_dict
 
@@ -117,12 +115,6 @@ def image_metadata(image, save=False):
     obj['height'] = height
     obj['width'] = width
 
-    if save is True:
-        output_file = 'data.json'
-
-        with open(output_file, 'w') as f:
-            json.dump(obj, f)
-
     return obj
 
 
@@ -145,16 +137,16 @@ def image_folder_metadata(path, save=False):
                 json_file = image_metadata(path+f)
                 img_list.append(json_file)
 
-    if save is True:
-        obj['images'] = img_list
-        output_file = 'data.json'
-        with open(output_file, 'w') as f:
-            json.dump(obj, f)
+    # if save is True:
+    #     obj['images'] = img_list
+    #     output_file = 'data.json'
+    #     with open(output_file, 'w') as f:
+    #         json.dump(obj, f)
 
     return img_list
 
 
-def image_folder_metadata_with_id(path, save=False):
+def image_folder_metadata_with_id(path):
     """
      Creates a JSON metadata with ID for images in a folder
 
@@ -162,17 +154,11 @@ def image_folder_metadata_with_id(path, save=False):
     :param save: Option to Save metadata to a JSON file
     :return: The list or JSON object of metadata
     """
-    obj = {}
+
     img_list = image_folder_metadata(path)
-    obj['images'] = img_list
 
     for idx, v in enumerate(img_list):
         v['id'] = idx
-
-    if save is True:
-        output_file = 'data.json'
-        with open(output_file, 'w') as f:
-            json.dump(obj, f)
 
     return img_list
 
@@ -240,11 +226,6 @@ def image_and_label_meta(img_path, label_path, save=False):
         obj['image'] = [image_meta]
         obj['annotations'] = label_meta
 
-    if save is True:
-        output_file = 'data/data.json'
-        with open(output_file,'w') as f:
-            json.dump(obj,f)
-
     return obj
 
 
@@ -264,7 +245,7 @@ def coco_format_folder(img_path, label_path, save=False):
         v['image_id'] = idx
 
     if save is True:
-        with open('dataset.json', 'w') as f:
+        with open('data.json', 'w') as f:
             json.dump(obj, f)
 
     return images_list
@@ -283,6 +264,7 @@ def coco_for_detectron2(img_dir, label_dir, bbox_mode='BoxMode.XYXY_ABS'):
     dataset_dicts = []
 
     for idx, v in enumerate(data_dict):
+
         record = {}
         file_name = v['image'][0]['file_name']
         height = v['image'][0]['height']
@@ -294,6 +276,7 @@ def coco_for_detectron2(img_dir, label_dir, bbox_mode='BoxMode.XYXY_ABS'):
         record["image_id"] = idx
 
         annotations = v['annotations']
+
         xmin = annotations[0]['bbox'][0]
         ymin = annotations[0]['bbox'][1]
         xmax = annotations[0]['bbox'][2]
@@ -307,7 +290,6 @@ def coco_for_detectron2(img_dir, label_dir, bbox_mode='BoxMode.XYXY_ABS'):
 
         for j in range(0, len(annotations)):
             annotations[j]['bbox_mode'] = bbox_mode
-            annotations[j]['category_id'] = 0
             annotations[j]['segmentation'] = [poly]
 
         record["annotations"] = annotations

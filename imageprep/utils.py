@@ -125,7 +125,7 @@ def resize_images_from_multiple_folders(path, output_size=256):
                 imResize.save(f + '.png', 'JPEG', quality=90)
 
 
-def list_path_to_files(path_to_folders, output_file_name=None, save=False):
+def list_path_to_files(path_to_folders, save=False):
     """
      Saves the path to files (images or labels) in one text file
 
@@ -140,6 +140,7 @@ def list_path_to_files(path_to_folders, output_file_name=None, save=False):
     files = os.listdir(path_to_folders)
     counter = 0
     cwd = os.getcwd()
+    output_file_name = "path.txt"
     txt = open(os.path.join(cwd, output_file_name), 'w')
     all_files = []
     for f in files:
@@ -155,11 +156,11 @@ def list_path_to_files(path_to_folders, output_file_name=None, save=False):
     return all_files
 
 
-def read_image(file, as_array = True):
+def read_image(file, as_array=True):
     """
      Reads image and returns a numpy array
 
-    :param file: image file name
+    :param file: image file namec
     :param as_array: option to read image to array.
     :return: numpy array
     """

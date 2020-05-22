@@ -78,7 +78,6 @@ def convert_to_yolo(image_path, input_path, output_path):
             output_file = open(output_path + file, "w")
             file_path = image_path + filename
 
-
             for line in input_file.readlines():
                 match = re.findall(r"(\d+)", line)
                 b_val = []
