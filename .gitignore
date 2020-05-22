@@ -41,3 +41,4 @@ imageprep/data/yolo_labels/
 .coverage.*
 coverage.xml
 .cc_token
+ data/logo.svg
