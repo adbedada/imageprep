@@ -5,19 +5,15 @@
 ![Image](https://travis-ci.com/adbeda/imageprep.svg?branch=master)
 [![codecov](https://codecov.io/gh/adbeda/imageprep/branch/master/graph/badge.svg)](https://codecov.io/gh/adbeda/imageprep)
 
-ImagePrep is collection of basic utility functions that can help prepare a dataset for an 
-Object Detection task. 
-
-Certain DL/ML libraries require a dataset to be organized in a structure or format that 
-fits into their workflow (e.g, COCO, YOLO, VOC formats). With ImagePrep, you can easily 
-prepare images and labels according to these data format requirements. Currently, 
-the tool simplifies the workaround COCO and YOLO style data preparation needs. 
 
 
-<b>Why ImagePrep?</b>
-- To refer and customize the functions now that they are in one place
-- And, in the long run, to make data preparation tasks easier
- 
+ImagePrep is a tool for creating, converting and formatting data labels for object detection tasks.
+
+Deep Learning frameworks expect datasets to be prepared in a structure, style or format that 
+fits into their workflow. With ImagePrep, you can easily organize labels according to these 
+requirements. Currently, the tool simplifies the process of preparing labels using COCO, 
+Pascal VOC and YOLO style format. Conversion to one from another is also supported.
+
 
 ##### Installation
     
