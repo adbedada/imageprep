@@ -1,12 +1,11 @@
 ![logo](./data/logo.svg)
-
+---
 ![GitHub](https://img.shields.io/github/license/adbeda/imageprep)
 [![Package version](https://img.shields.io/badge/version-0.3-blue)](https://github.com/adbeda/imageprep)
 ![Image](https://travis-ci.com/adbeda/imageprep.svg?branch=master)
 [![codecov](https://codecov.io/gh/adbeda/imageprep/branch/master/graph/badge.svg)](https://codecov.io/gh/adbeda/imageprep)
 
-
-ImagePrep is a tool for creating, converting and formatting data labels for object detection tasks.
+ImagePrep is a tool for preparing image labels in different formats, primarily for object detection tasks.
 
 Deep Learning frameworks expect datasets to be prepared in a structure, style or format that 
 fits into their workflow. With ImagePrep, you can easily organize labels according to these 
