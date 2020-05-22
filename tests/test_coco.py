@@ -3,30 +3,32 @@ from imageprep import coco
 
 
 cur_dir = path = os.path.dirname(__file__)
+
 # path to images and labels
-image_path = os.path.join(cur_dir, 'data', 'images/')
-label_path = os.path.join(cur_dir, 'data', 'labels/')
+image_path = os.path.join(cur_dir, 'data', 'balloon/images/')
+label_path = os.path.join(cur_dir, 'data', 'balloon/abs_label/')
+yolo_label = os.path.join(cur_dir, 'data', 'balloon/yolo_label/')
 
 # one bbox in a single file
-image_file0 = os.path.join(cur_dir, 'data', 'images/80_7.jpg')
-label_file0 = os.path.join(cur_dir, 'data', 'labels/80_7.txt')
+image_file0 = os.path.join(cur_dir, 'data', 'balloon/images/Img_1.jpg')
+label_file0 = os.path.join(cur_dir, 'data', 'balloon/abs_label/Img_1.txt')
 
 # multiple bboxes in a single file
-image_file1 = os.path.join(cur_dir, 'data', 'images/145_28.jpg')
-label_file1 = os.path.join(cur_dir, 'data', 'labels/145_28.txt')
+image_file1 = os.path.join(cur_dir, 'data', 'balloon/images/Img_2.jpg')
+label_file1 = os.path.join(cur_dir, 'data', 'balloon/abs_label/Img_2.txt')
 
+#yolo label
+label_file2 = os.path.join(cur_dir, 'data', 'balloon/yolo_label/Img_1.txt')
+
+
+def test_bbox_reader():
+    bbox_read = coco.bbox_reader(label_file2)
+    print(bbox_read)
 
 def test_bbox_list():
     """checks bbox loading from files"""
-    single_bbox_list = coco.bbox_list(label_file0)
-    assert len(single_bbox_list) == 1
-    assert single_bbox_list == [{'bbox': [267, 223, 391, 319]}]
-
     multiple_bbox_list = coco.bbox_list(label_file1)
-    assert len(multiple_bbox_list) > 1
-    assert multiple_bbox_list == [{'bbox': [336, 398, 416, 416]},
-                                  {'bbox': [3, 91, 105, 163]},
-                                  {'bbox': [134, 31, 196, 95]}]
+    assert len(multiple_bbox_list) >1
 
 
 def test_bbox_coco():
@@ -38,14 +40,13 @@ def test_bbox_coco():
 def test_image_metadata():
     """checks proper mete data collection of image """
     single_image = coco.image_metadata(image_file1)
-    assert single_image['file_name'].split('/')[-1] == '145_28.jpg'
-    assert single_image['height'] == 416
-    assert single_image['width'] == 416
+    assert single_image['height'] == 1024
+    assert single_image['width'] == 768
 
 
 def test_folder_metadata():
     folder_meta = coco.folder_metadata(image_path, label_path, label_ext='.txt')
-    print(folder_meta)
+    print(folder_meta[0]['image'])
 
 
 def test_image_folder_metadata_with_id():
@@ -57,7 +58,8 @@ def test_image_folder_metadata_with_id():
 
 
 def test_coco_format_folder():
-    coco_format = coco.coco_format_folder(image_path, label_path)
+    coco_format = coco.coco_format_folder(image_path, yolo_label)
+
     first_image = coco_format[0]['image'][0]['file_name'].split('/')[-1]
     xmin_list = []
     for idx, x in enumerate(coco_format):
@@ -66,5 +68,5 @@ def test_coco_format_folder():
             bbox = anno[0]
             xmin_list.append(bbox['bbox'])
 
-    assert first_image == '145_28.jpg'
-    assert len(xmin_list) == 8
+    assert len(xmin_list) == 16
+    print(first_image)

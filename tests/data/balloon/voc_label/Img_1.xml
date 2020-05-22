@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <annotations>
-   <folder>tests/data/balloon/images/</folder>
+   <folder>/Users/eddiebedada/to24/ai_assurance/sprint_6/imageprep/tests/data/balloon/images/</folder>
    <filename>Img_1.jpg</filename>
-   <path>tests/data/balloon/images/Img_1.jpg</path>
+   <path>/Users/eddiebedada/to24/ai_assurance/sprint_6/imageprep/tests/data/balloon/images/Img_1.jpg</path>
    <source>
       <database>unknown</database>
    </source>
@@ -65,7 +65,7 @@
       </bndbox>
    </object>
    <object>
-      <name>1</name>
+      <name>0</name>
       <pose>Unspecified</pose>
       <truncated>0</truncated>
       <difficult>0</difficult>
@@ -78,7 +78,7 @@
       </bndbox>
    </object>
    <object>
-      <name>1</name>
+      <name>0</name>
       <pose>Unspecified</pose>
       <truncated>0</truncated>
       <difficult>0</difficult>
@@ -91,7 +91,7 @@
       </bndbox>
    </object>
    <object>
-      <name>1</name>
+      <name>0</name>
       <pose>Unspecified</pose>
       <truncated>0</truncated>
       <difficult>0</difficult>
