@@ -71,12 +71,13 @@ def convert_to_yolo(image_path, input_path, output_path):
 
     for file in os.listdir(input_path):
 
-        if ".txt" in file:
-            filename = file[:-4] + ".jpg"
-            input_file = open(os.path.join(input_path + file))
-            file = file[:-4] + '.txt'
-            output_file = open(output_path + file, "w")
-            file_path = image_path + filename
+        if file.endswith('.txt'):
+            basename = os.path.splitext(file)[0]
+            filename = basename + ".jpg"
+            input_file = open(os.path.join(input_path, file))
+            file = basename + '.txt'
+            output_file = open(os.path.join(output_path, file), "w")
+            file_path = os.path.join(image_path, filename)
 
             for line in input_file.readlines():
                 match = re.findall(r"(\d+)", line)
@@ -120,12 +121,13 @@ def convert_from_yolo(image_path, input_path, output_path):
     """
     for file in os.listdir(input_path):
 
-        if ".txt" in file:
-            filename = file[:-4] + ".jpg"
-            input_file = open(os.path.join(input_path + file))
-            file = file[:-4] + '.txt'
-            output_file = open(output_path + file, "w")
-            file_path = image_path + filename
+        if file.endswith('.txt'):
+            basename = os.path.splitext(file)[0]
+            filename = basename + ".jpg"
+            input_file = open(os.path.join(input_path, file))
+            file = basename + '.txt'
+            output_file = open(os.path.join(output_path, file), "w")
+            file_path = os.path.join(image_path, filename)
 
             for line in input_file.readlines():
                 match = line.strip().split(' ')
@@ -146,3 +148,4 @@ def convert_from_yolo(image_path, input_path, output_path):
 
             output_file.close()
             input_file.close()
+
