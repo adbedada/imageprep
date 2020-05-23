@@ -183,9 +183,9 @@ def folder_metadata(img_path, label_path, label_ext='.txt'):
         for image in images:
             try:
                 if image.split('.')[-1] in img_ext:
-                        image_file_path = img_path+image
+                        image_file_path = os.path.join(img_path,image)
                         image_name = image.split('.')[0]
-                        label_file_path = label_path+image_name+label_ext
+                        label_file_path = os.path.join(label_path,image_name+label_ext)
                         img_label_meta_folder = image_and_label_meta(image_file_path, label_file_path)
                         image_files.append(image_file_path)
                         label_files.append(label_file_path)
@@ -229,7 +229,7 @@ def image_and_label_meta(img_path, label_path, save=False):
     return obj
 
 
-def coco_format_folder(img_path, label_path, save=False):
+def coco_format_folder(img_path, label_path, save=False, out_json = 'data.json'):
     """
      Creates JSON object or a dictionary of images and labels with COCO format
 
@@ -245,7 +245,7 @@ def coco_format_folder(img_path, label_path, save=False):
         v['image_id'] = idx
 
     if save is True:
-        with open('data.json', 'w') as f:
+        with open(out_json, 'w') as f:
             json.dump(obj, f)
 
     return images_list
