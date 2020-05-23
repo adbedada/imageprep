@@ -9,17 +9,17 @@ ImagePrep is a tool for preparing image labels in different formats, primarily f
 
 Deep Learning frameworks expect datasets to be prepared in a structure, style or format that 
 fits into their workflow. With ImagePrep, you can easily organize labels according to these 
-requirements. Currently, the tool simplifies the process of preparing labels using COCO, 
-Pascal VOC and YOLO style format. Conversion to one from another is also supported.
+requirements. Currently, the tool simplifies the process of preparing labels with COCO, 
+Pascal VOC and YOLO label formats. Conversion to one from another is also supported.
 
 
 ##### Installation
     
-  stable version
+  *A stable version:*
     
     pip install imageprep
   
-  latest version:
+  *The latest:*
   
     # clone repo
     git clone https://github.com/adbeda/imageprep    
@@ -33,7 +33,6 @@ Pascal VOC and YOLO style format. Conversion to one from another is also support
         
 
 
-
 ##### Usage
 
       
@@ -43,7 +42,7 @@ Example 1: Organize images and labels in COCO style
 from imageprep import coco
 
 """
-Folder Structure of a moc dataset
+Folder Structure of a sample dataset
 
 data
 ├── images
