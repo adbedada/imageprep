@@ -12,7 +12,6 @@ def bbox_reader(path):
     :return: Bounding box
     """
     label_list = read_label_as_list(path)
-    print(path)
     bbox = label_list[0][1]
     new_bbox = []
 
@@ -134,7 +133,7 @@ def image_folder_metadata(path, save=False):
     if os.path.isdir(path):
         files = os.listdir(path)
         for f in files:
-            if f.split('.')[-1] in extension:
+            if os.path.basename(f)[-1][1:] in extension:
                 json_file = image_metadata(path+f)
                 img_list.append(json_file)
 
@@ -183,11 +182,9 @@ def folder_metadata(img_path, label_path, label_ext='.txt'):
         images = os.listdir(img_path)
         for image in images:
             try:
-                if os.path.splitext(image)[-1]in img_ext:
+                if os.path.splitext(image)[-1][1:] in img_ext:
                         image_file_path = os.path.join(img_path,image)
-                        # This code breaks if you have multiple periods in your filename
                         image_name = os.path.splitext(image)[0]
-                        print(image_name)
                         label_file_path = os.path.join(label_path,image_name+label_ext)
                         img_label_meta_folder = image_and_label_meta(image_file_path, label_file_path)
                         image_files.append(image_file_path)
@@ -221,10 +218,7 @@ def image_and_label_meta(img_path, label_path, save=False):
     label_meta = bbox_coco(label_path)
     # Fix these below
     img_name = os.path.splitext(os.path.basename(img_path))[0]
-    #img_name = img_path.split('/')[-1].split('.')[0]
-    #label_name = label_path.split('/')[-1].split('.')[0]
     label_name = os.path.splitext(os.path.basename(label_path))[0]
-
     obj = {}
     if img_name != label_name:
         print("Files don't match.")
