@@ -184,7 +184,7 @@ def folder_metadata(img_path, label_path, label_ext='.txt'):
             try:
                 if image.split('.')[-1] in img_ext:
                         image_file_path = img_path+image
-                        image_name = image.split('.')[0]
+                        image_name = os.path.splitext(image)[0]
                         label_file_path = label_path+image_name+label_ext
                         img_label_meta_folder = image_and_label_meta(image_file_path, label_file_path)
                         image_files.append(image_file_path)
@@ -216,9 +216,8 @@ def image_and_label_meta(img_path, label_path, save=False):
     """
     image_meta = image_metadata(img_path)
     label_meta = bbox_coco(label_path)
-    img_name = img_path.split('/')[-1].split('.')[0]
-    label_name = label_path.split('/')[-1].split('.')[0]
-
+    img_name = os.path.splitext(os.path.basename(img_path))[0]
+    label_name = os.path.splitext(os.path.basename(label_path))[0]
     obj = {}
     if img_name != label_name:
         print("Files don't match.")
