@@ -15,17 +15,18 @@ def image_names(path_to_folder, with_extension=False):
     name_list = []
 
     # common image file extensions
-    extension = ['jpg', 'png', 'tif', 'jpeg', 'tiff']
+    extension = ['.jpg', '.png', '.tif', '.jpeg', '.tiff']
 
     if os.path.isdir(path_to_folder):
         files = os.listdir(path_to_folder)
         for f in files:
-            if f.split('.')[-1] in extension:
+            if os.path.splitext(f)[-1] in extension:
+                print(f)
 
                 if with_extension is True:
                     name_list.append(f)
                 else:
-                    title, ext = f.split('.')
+                    title, ext = os.path.splitext(f)
                     name_list.append(title)
     else:
         file = path_to_folder
