@@ -125,7 +125,7 @@ def resize_images_from_multiple_folders(path, output_size=256):
                 imResize.save(f + '.png', 'JPEG', quality=90)
 
 
-def list_path_to_files(path_to_folders, save=False):
+def list_path_to_files(path_to_folders, output_file_name, save=False):
     """
      Saves the path to files (images or labels) in one text file
 
@@ -140,7 +140,7 @@ def list_path_to_files(path_to_folders, save=False):
     files = os.listdir(path_to_folders)
     counter = 0
     cwd = os.getcwd()
-    output_file_name = "path.txt"
+    output_file_name = output_file_name
     txt = open(os.path.join(cwd, output_file_name), 'w')
     all_files = []
     for f in files:
