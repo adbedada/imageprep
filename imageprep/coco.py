@@ -127,13 +127,13 @@ def image_folder_metadata(path, save=False):
     :return: The list or JSON object of metadata
     """
     obj = {}
-    extension = ['jpg', 'png', 'tif', 'jpeg', 'tiff']
+    extension = ['.jpg', '.png', '.tif', '.jpeg', '.tiff']
     img_list = []
 
     if os.path.isdir(path):
         files = os.listdir(path)
         for f in files:
-            if os.path.basename(f)[-1][1:] in extension:
+            if os.path.splitext(f)[-1] in extension:
                 json_file = image_metadata(path+f)
                 img_list.append(json_file)
 
