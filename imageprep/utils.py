@@ -15,17 +15,18 @@ def image_names(path_to_folder, with_extension=False):
     name_list = []
 
     # common image file extensions
-    extension = ['jpg', 'png', 'tif', 'jpeg', 'tiff']
+    extension = ['.jpg', '.png', '.tif', '.jpeg', '.tiff']
 
     if os.path.isdir(path_to_folder):
         files = os.listdir(path_to_folder)
         for f in files:
-            if f.split('.')[-1] in extension:
+            if os.path.splitext(f)[-1] in extension:
+                print(f)
 
                 if with_extension is True:
                     name_list.append(f)
                 else:
-                    title, ext = f.split('.')
+                    title, ext = os.path.splitext(f)
                     name_list.append(title)
     else:
         file = path_to_folder
@@ -125,7 +126,7 @@ def resize_images_from_multiple_folders(path, output_size=256):
                 imResize.save(f + '.png', 'JPEG', quality=90)
 
 
-def list_path_to_files(path_to_folders, save=False):
+def list_path_to_files(path_to_folders, output_file_name, save=False):
     """
      Saves the path to files (images or labels) in one text file
 
@@ -140,7 +141,7 @@ def list_path_to_files(path_to_folders, save=False):
     files = os.listdir(path_to_folders)
     counter = 0
     cwd = os.getcwd()
-    output_file_name = "path.txt"
+    output_file_name = output_file_name
     txt = open(os.path.join(cwd, output_file_name), 'w')
     all_files = []
     for f in files:
