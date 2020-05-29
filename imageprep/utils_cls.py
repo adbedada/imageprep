@@ -3,55 +3,36 @@ import numpy as np
 from PIL import Image
 
 
-class OrganizeImages:
+class OrganizeImageFolder:
 
-    def __init__(self, path, output_size=256, with_extension=False):
+    def __init__(self, path, output_size=256):
         self.path = path
         self.output_size = output_size
-        self.with_extension = with_extension
+        self.Image_list = []
+        self.extension = ['.jpg', '.png', '.tif', '.jpeg', '.tiff']
 
-    def __len__(self):
-        return len(self.read_images())
-
-    def __getitem__(self, index):
-        return self.read_images()[index]
-
-    def read_images(self):
-
-        name_list = []
-        extension = ['.jpg', '.png', '.tif', '.jpeg', '.tiff']
+    # def read_images(self):
 
         if os.listdir(self.path):
             files = os.listdir(self.path)
             for f in files:
-                if os.path.splitext(f)[-1] in extension:
-                    if self.with_extension is True:
-                        name_list.append(f)
-                    else:
-                        title, ext = os.path.splitext(f)
-                        name_list.append(title)
+                if os.path.splitext(f)[-1] in self.extension:
+                    self.Image_list.append(f)
 
         else:
-            for folders in os.listdir(self.path):
-                folders_list = os.path.join(self.path, folders)
-                print(folders_list)
-                folder_path = os.path.join(self.path, folder)
-                for files in os.listdir(folder_path):
+            f = self.path
+            if os.path.splitext(f)[-1] in self.extension:
+                    self.Image_list.append(f)
 
-                    for f in files:
+    def __len__(self):
+        return len(self.Image_list)
 
-                        if os.path.splitext(f)[-1] in extension:
-                            if self.with_extension is True:
-                                name_list.append(f)
-                            else:
-                                title, ext = os.path.splitext(f)
-                                name_list.append(title)
-
-        return name_list
+    def __getitem__(self, index):
+        return self.Image_list[index]
 
     def resize_images_in_one_folder(self, output_size=256, save=False):
 
-        file_name = self.read_images()
+        file_name = self.Image_list
 
         for file in file_name:
             img = Image.open(os.path.join(self.path, file))
@@ -59,10 +40,33 @@ class OrganizeImages:
             if save is True:
                 resize_image.save(file, 'JPEG', quality=90)
             else:
-                return resize_image
+                print("Image Resized but not Saved")
 
 
+class OrganizeImageFolders:
 
+    def __init__(self, path):
+        self.path = path
+        self.Image_list = []
+
+        for folders in os.listdir(path):
+            folders_list = os.path.join(path, folders)
+            if not folders.startswith("."):
+                images = os.listdir(folders_list)
+                for img in images:
+                    self.Image_list.append(img)
+
+    def __len__(self):
+        return len(self.Image_list)
+
+    def __getitem__(self, item):
+
+        return self.Image_list[item]
+
+    def class_names(self):
+        for folders in os.listdir(self.path):
+            if not folders.startswith("."):
+                print(folders)
 
 
 mif = '/Users/eddiebedada/projects/mltut/UCMerced_LandUse/images/'
@@ -73,13 +77,14 @@ label_path = os.path.join(cur_dir, 'data', 'balloon/abs_label/')
 yolo_label = os.path.join(cur_dir, 'data', 'balloon/yolo_label/')
 
 
-folder = OrganizeImages(image_path, with_extension=True)
-
-fnames = folder.read_images()
-print(fnames)
-
-
+f1 = OrganizeImageFolder(image_path)
+#print(len(f1))
+#print(f1[2])
+print(f1.resize_images_in_one_folder())
 
 
-
-
+# f2 = OrganizeImageFolders(mif)
+# print(f2.class_names())
+# print(len(f2))
+#
+#
