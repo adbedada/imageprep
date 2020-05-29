@@ -21,7 +21,6 @@ def image_names(path_to_folder, with_extension=False):
         files = os.listdir(path_to_folder)
         for f in files:
             if os.path.splitext(f)[-1] in extension:
-                print(f)
 
                 if with_extension is True:
                     name_list.append(f)
