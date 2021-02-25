@@ -7,7 +7,7 @@ from setuptools import find_packages, setup, Command
 
 # Package meta-data.
 NAME = 'imageprep'
-DESCRIPTION = 'Image Preparation Utilities for Deep Learning'
+DESCRIPTION = 'Image Preparation Utilities'
 URL = 'https://github.com/adbeda/imageprep'
 EMAIL = 'adbedada@gmail.com'
 AUTHOR = 'Adane Bedada'
