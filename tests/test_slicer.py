@@ -9,5 +9,5 @@ output_path = os.path.join(cur_dir, 'data','tiffs', 'sliced_tiff/')
 
 def test_image_slicer():
 
-    image_slicer = ImageSlicer(input_path, output_path, output_type="tiff")
+    image_slicer = ImageSlicer(input_path, output_path, output_type="png")
     image_slicer.slicer()

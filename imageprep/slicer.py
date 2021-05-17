@@ -3,11 +3,22 @@ from itertools import product
 import rasterio as rio
 from rasterio import windows
 import numpy as np
-from osgeo import gdal
+import skimage.transform
 
 
 class ImageSlicer:
+    """
+    Chip large tif to smaller size and/or convert to pngs
+    """
     def __init__(self, input_path, output_path, output_type="png"):
+        """
+        Saves chipped images into an output folder
+
+        Args:
+            input_path: path to the input directory containing tiff
+            output_path: path to the outputs
+            output_type: type of image
+        """
         self.input_path = input_path
         self.output_path = output_path
         self.output_type = output_type
@@ -22,7 +33,8 @@ class ImageSlicer:
         offsets = product(range(0, nols, self.width), range(0, nrows, self.width))
         big_window = windows.Window(col_off=0, row_off=0, width=nols, height=nrows)
         for col_off, row_off in  offsets:
-            window =windows.Window(col_off=col_off, row_off=row_off, width=self.width, height=self.width).intersection(big_window)
+            window = windows.Window(col_off=col_off, row_off=row_off, width=self.width,
+                                    height=self.width).intersection(big_window)
             transform = windows.transform(window, dataset.transform)
             yield window, transform
 
@@ -48,15 +60,20 @@ class ImageSlicer:
 
                         elif self.output_type == "png":
                             profile = src.profile.copy()
-                            profile.update(
-                                dtype=rio.uint8,
-                                driver = "PNG",
-                                compress='lzw')
+                            profile.update(dtype=rio.uint8, driver="PNG",)
                             out_path = os.path.join(self.output_path,
                                                    self.output_png.format(os.path.splitext(input_f)[0],
                                                                                              int(window.col_off),
                                                                                               int(window.row_off)))
-
                             with rio.open(out_path, 'w', **profile) as dst:
-                                op = src.read(window=window).astype(rio.uint8)
-                                dst.write(op)
+                                values = src.read(window=window).astype(np.float32)
+                                for channel in range(3):
+                                    min_val = np.min(values[channel])
+                                    max_val = np.max(values[channel])
+                                    values[channel] = np.clip(values[channel],min_val, max_val)
+                                    values[channel] = ((values[channel] - min_val) / (max_val - min_val))*255
+                                values = values.transpose(1, 2, 0)  # change (ch, w, h) to (w, h, ch)
+                                values = skimage.transform.resize(values, (self.height, self.width))
+                                values = values.astype(np.uint8)
+                                values = values.transpose(2, 1, 0)
+                                dst.write(values)
