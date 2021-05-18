@@ -22,7 +22,7 @@ install:
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
   - conda update conda -c conda-forge
-  - conda env create -n imageprep -f environment.yaml
+  - conda env create -n imageprep -f environment.yml
   - conda list -n imageprep
   - source activate imageprep
   - python --version
