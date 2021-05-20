@@ -23,7 +23,6 @@ jobs:
     - name: Install dependencies
       run: |
         conda env update --file environment.yml --name base
-        conda activate imageprep
         pip install --user -r requirements.txt
         pip install codecov
         pip install pytest-cov
