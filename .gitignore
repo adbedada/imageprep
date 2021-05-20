@@ -41,4 +41,5 @@ imageprep/data/yolo_labels/
 .coverage.*
 coverage.xml
 .cc_token
- data/logo.svg
+data/logo.svg
+imageprep/tests/data/tiffs/sliced_tiff/
