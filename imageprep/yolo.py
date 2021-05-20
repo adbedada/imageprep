@@ -1,5 +1,6 @@
 import re
-from imageprep.utils import *
+import os
+from PIL import Image
 
 
 def yolo_label_format(size, box):
@@ -36,8 +37,6 @@ def reverse_yolo_to_absolute(size, box):
     :return: Anchor bbox values
     """
 
-    # src: https://github.com/CosmiQ/yolt/blob/653829c5745d7bde7120e4f6bae8600b2ada4554/scripts/convert.py#L105
-
     # dw = size[0]
     # dh = size[1]
     # xmin = int(((dw * box[0]) * 2) - dw)
@@ -53,7 +52,7 @@ def reverse_yolo_to_absolute(size, box):
     x_center = x/dw
     y_center = y/dh
 
-    xmin, xmax = x_center - w0/2., x_center+ w0/2.
+    xmin, xmax = x_center - w0/2., x_center + w0/2.
     ymin, ymax = y_center - h0/2., y_center + h0/2.
 
     return int(xmin), int(ymin), int(xmax), int(ymax)
@@ -104,7 +103,8 @@ def convert_to_yolo(image_path, input_path, output_path):
                     size = im.size
                     bb = yolo_label_format(size, b)
 
-                    output_file.write("0" + " " + " ".join([str(a) for a in bb]) + "\n")
+                    output_file.write("0" + " " + " ".join(
+                        [str(a) for a in bb]) + "\n")
 
             output_file.close()
             input_file.close()
@@ -144,8 +144,8 @@ def convert_from_yolo(image_path, input_path, output_path):
                     size = im.size
                     bb = reverse_yolo_to_absolute(size, b)
 
-                    output_file.write(objcls+ " " + " ".join([str(a) for a in list(bb)]) + "\n")
+                    output_file.write(objcls + " " + " ".join(
+                        [str(a) for a in list(bb)]) + "\n")
 
             output_file.close()
             input_file.close()
-

@@ -11,7 +11,7 @@ class OrganizeOneFolder:
         self.Image_list = []
         self.extension = ['.jpg', '.png', '.tif', '.jpeg', '.tiff']
 
-    # def read_images(self):
+        # def read_images(self):
 
         if os.listdir(self.path):
             files = os.listdir(self.path)
@@ -22,7 +22,7 @@ class OrganizeOneFolder:
         else:
             f = self.path
             if os.path.splitext(f)[-1] in self.extension:
-                    self.Image_list.append(f)
+                self.Image_list.append(f)
 
     def __len__(self):
         return len(self.Image_list)
@@ -36,7 +36,8 @@ class OrganizeOneFolder:
         img_list = []
         for file in file_name:
             img = Image.open(os.path.join(self.path, file))
-            resize_image = img.resize((output_size, output_size), Image.ANTIALIAS)
+            resize_image = img.resize((output_size, output_size),
+                                      Image.ANTIALIAS)
             if save is True:
                 resize_image.save(file, 'JPEG', quality=90)
             else:
@@ -97,32 +98,3 @@ class OrganizeMultipleFolders:
             img_arr = OrganizeOneFolder(p).read_images_as_array()
             img_arr_list.append(img_arr)
             return img_arr_list
-
-
-
-##################
-mif = '~/projects/mltut/UCMerced_LandUse/images/'
-cur_dir = '~/to24/ai_assurance/sprint_6/imageprep/tests/'
-# path to images and labels
-image_path = os.path.join(cur_dir, 'data', 'balloon/images/')
-label_path = os.path.join(cur_dir, 'data', 'balloon/abs_label/')
-yolo_label = os.path.join(cur_dir, 'data', 'balloon/yolo_label/')
-
-
-f1 = OrganizeOneFolder(image_path)
-#print(len(f1))
-#print(f1[2])
-#print(f1.resize_images_in_one_folder())
-#r1 = f1.read_images_as_array()
-#print([i.shape for i in r1])
-OrganizeOneFolder(mif).resize_images_in_one_folder()
-f2 = OrganizeMultipleFolders(mif)
-# print(f2.class_names())
-# print(len(f2))
-R1 = f2.call_read_images_as_array()
-print(R1)
-
-# for val in range(len(f2)):
-#    img = f2[val]
-#    img_arr  = OrganizeImageFolder(mif).read_images_as_array()
-#    print(img_arr)

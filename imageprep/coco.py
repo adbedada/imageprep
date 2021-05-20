@@ -1,6 +1,8 @@
+import os
 import json
 import itertools
-from imageprep.utils import *
+from PIL import Image
+from imageprep import utils
 from imageprep import yolo
 
 
@@ -11,7 +13,7 @@ def bbox_reader(path):
     :param path: Directory path to the label text file
     :return: Bounding box
     """
-    label_list = read_label_as_list(path)
+    label_list = utils.read_label_as_list(path)
     bbox = label_list[0][1]
     new_bbox = []
 
@@ -66,13 +68,12 @@ def bbox_coco(path, save=False):
     :param save: option to save
     :return: Dictionary with COCO style data format
     """
-    obj = {}
 
     bb_dict = bbox_list(path)
     new_bb_dict = []
     bz = []
     for idx, value in enumerate(bb_dict):
-        idx +=1
+        idx += 1
         value['id'] = idx
         obj_class = int(value['bbox'][0])
 
@@ -81,13 +82,13 @@ def bbox_coco(path, save=False):
         xmax = float(value['bbox'][3])
         ymax = float(value['bbox'][4])
 
-        new_bb_dict = [xmin, ymin,xmax,ymax]
+        new_bb_dict = [xmin, ymin, xmax, ymax]
 
         w = xmax - xmin
         h = ymax - ymin
         bz.append([w, h])
 
-        img_area = h*w
+        img_area = h * w
         value["segmentation"] = []
         value['area'] = img_area
         value['bbox'] = new_bb_dict
@@ -126,7 +127,7 @@ def image_folder_metadata(path, save=False):
     :param save: Option to Save metadata to a JSON file
     :return: The list or JSON object of metadata
     """
-    obj = {}
+
     extension = ['.jpg', '.png', '.tif', '.jpeg', '.tiff']
     img_list = []
 
@@ -134,7 +135,7 @@ def image_folder_metadata(path, save=False):
         files = os.listdir(path)
         for f in files:
             if os.path.splitext(f)[-1] in extension:
-                json_file = image_metadata(path+f)
+                json_file = image_metadata(path + f)
                 img_list.append(json_file)
 
     # if save is True:
@@ -183,22 +184,28 @@ def folder_metadata(img_path, label_path, label_ext='.txt'):
         for image in images:
             try:
                 if os.path.splitext(image)[-1][1:] in img_ext:
-                        image_file_path = os.path.join(img_path,image)
-                        image_name = os.path.splitext(image)[0]
-                        label_file_path = os.path.join(label_path,image_name+label_ext)
-                        img_label_meta_folder = image_and_label_meta(image_file_path, label_file_path)
-                        image_files.append(image_file_path)
-                        label_files.append(label_file_path)
-                        images_and_labels_list.append(img_label_meta_folder)
+                    img_f_path = os.path.join(img_path, image)
+                    image_name = os.path.splitext(image)[0]
+                    label_f_path = os.path.join(label_path,
+                                                image_name + label_ext)
+                    img_label_meta_folder = image_and_label_meta(img_f_path,
+                                                                 label_f_path)
+                    image_files.append(img_f_path)
+                    label_files.append(label_f_path)
+                    images_and_labels_list.append(img_label_meta_folder)
 
             except ValueError:
                 # Exception for mis-match  in the number of files
 
                 if len(image_files) > len(label_files):
 
-                    print('There are more files in the images folder than in the labels folder!')
+                    print('There are more files in the images \
+                    folder than in the labels folder!')
+
                 elif len(label_files) > len(image_files):
-                    print('There are more files in the labels folder than in the images folder!')
+                    print('There are more files in the labels \
+                    folder than in the images folder!')
+
                 else:
                     print("Check if files match in count!")
 
@@ -229,14 +236,18 @@ def image_and_label_meta(img_path, label_path, save=False):
     return obj
 
 
-def coco_format_folder(img_path, label_path, save=False, out_json = 'data.json'):
+def coco_format_folder(img_path, label_path, save=False, out_json='data.json'):
     """
      Creates JSON object or a dictionary of images and labels with COCO format
 
     :param img_path: Path to the folder containing images
     :param label_path: Path to the folder containing the corresponding labels
     :param save: Option to save object to file
+    :param out_json: File to save output to
     :return: JSON object of a Dictionary depending on the option provided.
+
+    Args:
+        out_json:
     """
     obj = {}
     images_list = folder_metadata(img_path, label_path)
@@ -298,7 +309,9 @@ def coco_for_detectron2(img_dir, label_dir, bbox_mode='BoxMode.XYXY_ABS'):
     return dataset_dicts
 
 
-def coco_from_yolo_for_detectron2(img_dir, label_dir, bbox_mode='BoxMode.XYXY_ABS'):
+def coco_from_yolo_for_detectron2(img_dir,
+                                  label_dir,
+                                  bbox_mode='BoxMode.XYXY_ABS'):
     """
      Creates Detectron2 compatible COCO data format
 

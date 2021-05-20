@@ -10,6 +10,7 @@ class ImageSlicer:
     """
     Chip large tif to smaller size and/or convert to pngs
     """
+
     def __init__(self, input_path, output_path, output_type="png"):
         """
         Saves chipped images into an output folder
@@ -30,10 +31,16 @@ class ImageSlicer:
 
     def get_tiles(self, dataset):
         nols, nrows = dataset.meta['width'], dataset.meta['height']
-        offsets = product(range(0, nols, self.width), range(0, nrows, self.width))
-        big_window = windows.Window(col_off=0, row_off=0, width=nols, height=nrows)
-        for col_off, row_off in  offsets:
-            window = windows.Window(col_off=col_off, row_off=row_off, width=self.width,
+        offsets = product(range(0, nols, self.width),
+                          range(0, nrows, self.width))
+        big_window = windows.Window(col_off=0,
+                                    row_off=0,
+                                    width=nols,
+                                    height=nrows)
+        for col_off, row_off in offsets:
+            window = windows.Window(col_off=col_off,
+                                    row_off=row_off,
+                                    width=self.width,
                                     height=self.width).intersection(big_window)
             transform = windows.transform(window, dataset.transform)
             yield window, transform
@@ -47,33 +54,43 @@ class ImageSlicer:
 
                     for window, transform in self.get_tiles(src):
                         meta['transform'] = transform
-                        meta['width'], meta['height'] = window.width, window.height
+                        meta['width'] = window.width
+                        meta['height'] = window.height
 
                         if self.output_type == "tiff":
                             out_path = os.path.join(self.output_path,
-                                                    self.output_tiff.format(os.path.splitext(input_f)[0],
-                                                                           int(window.col_off),
-                                                                           int(window.row_off)))
+                                                    self.output_tiff.format(
+                                                        os.path.splitext(
+                                                            input_f)[0],
+                                                        int(window.col_off),
+                                                        int(window.row_off)))
 
-                            with rio.open(out_path, 'w', **meta) as sliced_image:
-                                sliced_image.write(src.read(window=window))
+                            with rio.open(out_path, 'w', **meta) as dst:
+                                dst.write(src.read(window=window))
 
                         elif self.output_type == "png":
                             profile = src.profile.copy()
-                            profile.update(dtype=rio.uint8, driver="PNG",)
+                            profile.update(dtype=rio.uint8, driver="PNG", )
                             out_path = os.path.join(self.output_path,
-                                                   self.output_png.format(os.path.splitext(input_f)[0],
-                                                                                             int(window.col_off),
-                                                                                              int(window.row_off)))
+                                                    self.output_png.format(
+                                                        os.path.splitext(
+                                                            input_f)[0],
+                                                        int(window.col_off),
+                                                        int(window.row_off)))
                             with rio.open(out_path, 'w', **profile) as dst:
-                                values = src.read(window=window).astype(np.float32)
-                                for channel in range(3):
-                                    min_val = np.min(values[channel])
-                                    max_val = np.max(values[channel])
-                                    values[channel] = np.clip(values[channel],min_val, max_val)
-                                    values[channel] = ((values[channel] - min_val) / (max_val - min_val))*255
-                                values = values.transpose(1, 2, 0)  # change (ch, w, h) to (w, h, ch)
-                                values = skimage.transform.resize(values, (self.height, self.width))
-                                values = values.astype(np.uint8)
-                                values = values.transpose(2, 1, 0)
-                                dst.write(values)
+                                val = src.read(window=window)\
+                                    .astype(np.float32)
+                                for ch in range(3):
+                                    _min = np.min(val[ch])
+                                    _max = np.max(val[ch])
+                                    val[ch] = np.clip(val[ch], _min, _max)
+                                    val[ch] = ((val[ch] - _min) /
+                                               (_max - _min)) * 255
+                                # (ch, w, h) -> (w, h, ch)
+                                val = val.transpose(1, 2, 0)
+                                val = skimage.transform.resize(val,
+                                                               (self.height,
+                                                                self.width))
+                                val = val.astype(np.uint8)
+                                val = val.transpose(2, 1, 0)
+                                dst.write(val)
