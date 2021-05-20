@@ -1,4 +1,4 @@
-name: ALTS
+name: ImagePrep
 
 on: [push]
 

@@ -1,12 +1,12 @@
 import os
 from imageprep import utils
-from xml.etree.ElementTree import Element, SubElement, tostring, XML
+from xml.etree.ElementTree import Element, SubElement
 from xml.etree import ElementTree
 from xml.dom import minidom
 
 
 """
-VOC FORMAT: 
+VOC FORMAT:
 
 <?xml version="1.0" ?>
 <annotations>
@@ -89,8 +89,8 @@ def convert_to_voc(image_path, label_path, voc_path):
         path = SubElement(root, "path")
         path.text = str(os.path.join(image_path, f))
         # image source
-        source = SubElement(root,"source")
-        database = SubElement(source,"database")
+        source = SubElement(root, "source")
+        database = SubElement(source, "database")
         database.text = "unknown"
         # dimensions
         size = SubElement(root, "size")
@@ -117,18 +117,18 @@ def convert_to_voc(image_path, label_path, voc_path):
                 objname = SubElement(object, "name")
                 pose = SubElement(object, "pose")
                 pose.text = "Unspecified"
-                truncated = SubElement(object,"truncated")
+                truncated = SubElement(object, "truncated")
                 truncated.text = str(0)
-                difficult = SubElement(object,"difficult")
+                difficult = SubElement(object, "difficult")
                 difficult.text = str(0)
                 occluded = SubElement(object, "occluded")
                 occluded.text = str(0)
                 # bounding box
-                bndbox = SubElement(object, 'bndbox')
-                x_min = SubElement(bndbox, "xmin")
-                y_min = SubElement(bndbox, "ymin")
-                x_max = SubElement(bndbox, "xmax")
-                y_max = SubElement(bndbox, "ymax")
+                bound_box = SubElement(object, 'bndbox')
+                x_min = SubElement(bound_box, "xmin")
+                y_min = SubElement(bound_box, "ymin")
+                x_max = SubElement(bound_box, "xmax")
+                y_max = SubElement(bound_box, "ymax")
 
                 match = line.strip().split(' ')
                 if match:

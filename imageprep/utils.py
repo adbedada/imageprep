@@ -51,7 +51,7 @@ def pad_image(image_file_name, new_size=(600, 600), save=False):
     :param save: option to save output
     :return:
     """
-    # src: https://stackoverflow.com/questions/11142851/adding-borders-to-an-image-using-python/39321668#39321668
+
     image = Image.open(image_file_name)
     rows, cols = image.size
 
@@ -99,30 +99,32 @@ def resize_images_in_one_folder(path, output_size=256):
                 im = Image.open(path+item)
                 f, e = os.path.splitext(path+item)
 
-                im_resize = im.resize((output_size,output_size), Image.ANTIALIAS)
+                im_resize = im.resize((output_size, output_size),
+                                      Image.ANTIALIAS)
                 im_resize.save(f + '.jpg', 'JPEG', quality=90)
 
 
 def resize_images_from_multiple_folders(path, output_size=256):
     """
-     Re-sizes images in multiple folders and saves images in each respective folder
+     Re-sizes images in multiple folders and saves images in each folder
 
     :param path: path to the folder containing all folders with images
-    :param output_size:
+    :param output_size: image output size
     :return: re-sized images saved in their respective folder
     """
 
     for folders in os.listdir(path):
-        folder_list = os.path.join(path,folders)
+        folder_list = os.path.join(path, folders)
         for item in os.listdir(folder_list):
             if item.endswith(".png"):
-                file = os.path.join(folder_list,item)
+                file = os.path.join(folder_list, item)
 
                 im = Image.open(file)
-                imResize = im.resize((output_size, output_size), Image.ANTIALIAS)
+                im_resize = im.resize((output_size, output_size),
+                                      Image.ANTIALIAS)
 
                 f, e = os.path.splitext(file)
-                imResize.save(f + '.png', 'JPEG', quality=90)
+                im_resize.save(f + '.png', 'JPEG', quality=90)
 
 
 def list_path_to_files(path_to_folders, output_file_name, save=False):
@@ -211,10 +213,10 @@ def read_labels(input_path, ext='.txt'):
                 input_file = open(os.path.join(input_path + item))
                 for line in input_file.read().splitlines():
                     content.append([line])
-                if len(content) !=1:
+                if len(content) != 1:
                     label_content.append([item, content])
                 else:
-                    label_content.append([item,content[0]])
+                    label_content.append([item, content[0]])
 
     return label_content
 

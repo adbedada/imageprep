@@ -4,13 +4,7 @@ Raster data Preprocessing utility
 import numpy as np
 import glob
 import os.path
-import geopandas as gpd
-import rasterio
-from rasterio import features
 from osgeo import gdal
-from re import sub
-from pathlib import Path
-from imageprep import utils
 
 
 class ImageProcessor:
@@ -60,7 +54,8 @@ class ImageProcessor:
         :return: stacked numpy array
         """
         raster_array = np.stack([raster.ReadAsArray()
-                                 for raster in self.read_raster_data()], axis=-1)
+                                 for raster in
+                                 self.read_raster_data()], axis=-1)
 
         return raster_array
 
@@ -82,17 +77,17 @@ class ImageProcessor:
         rows = Array.shape[1]
         cols = Array.shape[0]
         band = Array.shape[2]
-        noData = -9999
+        no_data = -9999
         driver = gdal.GetDriverByName('GTiff')
-        Name_out = os.path.join(path,Name)
-        print('tif:'+ Name_out)
-        DataSet = driver.Create(Name_out, rows, cols, band, gdal.GDT_Float32)
+        name_out = os.path.join(path, Name)
+        print('tif:' + name_out)
+        DataSet = driver.Create(name_out, rows, cols, band, gdal.GDT_Float32)
         DataSet.SetGeoTransform(GeoT)
         DataSet.SetProjection(Proj)
 
         for i in range(band):
             DataSet.GetRasterBand(i + 1).WriteArray(Array[:, :, i])
-            DataSet.GetRasterBand(i + 1).SetNoDataValue(noData)
+            DataSet.GetRasterBand(i + 1).SetNoDataValue(no_data)
 
         DataSet.FlushCache()
         return Name
