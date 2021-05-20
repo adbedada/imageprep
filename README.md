@@ -1,10 +1,26 @@
-![logo](./data/logo.svg)
+<p align="center"> ![logo](./data/logo.svg) </p>
 ---
-![GitHub](https://img.shields.io/github/license/adbeda/imageprep)
-[![Package version](https://img.shields.io/badge/version-0.4-blue)](https://github.com/adbeda/imageprep)
-![Image](https://travis-ci.com/adbeda/imageprep.svg?branch=master)
-[![codecov](https://codecov.io/gh/adbeda/imageprep/branch/master/graph/badge.svg)](https://codecov.io/gh/adbeda/imageprep)
 
+ 
+ <a href="https://github.com/adbeda/imageprep/actions/workflows/imageprep_actions.yml" target="_blank">
+ <img src="https://github.com/adbeda/imageprep/actions/workflows/imageprep_actions.yml/badge.svg" alt
+ ="CI">
+ </a>
+ <a href="https://github.com/adbeda/imageprep/blob/master/LICENSE.txt" target="_blank">
+ <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="Test">
+ </a>
+
+  <a href="https://github.com/adbeda/imageprep" target="_blank">
+ <img src="https://img.shields.io/badge/version-0.4-blue" alt="version">
+ </a>
+  <a href="https://codecov.io/gh/adbeda/imageprep" target="_blank">
+ <img src="https://codecov.io/gh/adbeda/imageprep/branch/master/graph/badge.svg" alt="Test">
+ </a>
+ 
+---
+ 
+
+</p>
 ImagePrep is a tool for preparing image labels in different formats, primarily for object detection tasks.
 
 Deep Learning frameworks expect datasets to be prepared in a structure, style or format that 

@@ -1,12 +1,12 @@
 import os
 import numpy as np
-from imageprep.prep import ImageProcessor as IP
+from imageprep.prep import ImageProcessor as ImgP
 
 cur_dir = os.path.dirname(__file__)
 # path to images and labels
 image_path = os.path.join(cur_dir, 'data', 'tiffs/')
 
-processor = IP(image_path)
+processor = ImgP(image_path)
 
 
 def test_image_names():
@@ -24,4 +24,3 @@ def test_raster_to_array():
     raster_array = processor.raster_to_array()
     assert isinstance(raster_array, np.ndarray)
     print(np.shape(raster_array))
-
