@@ -1,9 +1,14 @@
-<p align="center"> ![logo](./data/logo.svg) </p>
----
+<p align="center"> 
 
- 
- <a href="https://github.com/adbeda/imageprep/actions/workflows/imageprep_actions.yml" target="_blank">
- <img src="https://github.com/adbeda/imageprep/actions/workflows/imageprep_actions.yml/badge.svg" alt
+<img src="./data/logo/imageprep.jpg" style="max-width: 400px;" alt="Logo"/>
+
+</p>
+
+----
+
+<p> 
+ <a href="https://github.com/adbeda/imageprep/actions/workflows/ci_main.yml" target="_blank">
+ <img src="https://github.com/adbeda/imageprep/actions/workflows/ci_main.yml/badge.svg" alt
  ="CI">
  </a>
  <a href="https://github.com/adbeda/imageprep/blob/master/LICENSE.txt" target="_blank">
@@ -16,11 +21,10 @@
   <a href="https://codecov.io/gh/adbeda/imageprep" target="_blank">
  <img src="https://codecov.io/gh/adbeda/imageprep/branch/master/graph/badge.svg" alt="Test">
  </a>
- 
----
- 
-
 </p>
+
+---
+
 ImagePrep is a tool for preparing image labels in different formats, primarily for object detection tasks.
 
 Deep Learning frameworks expect datasets to be prepared in a structure, style or format that 
@@ -62,10 +66,10 @@ Folder Structure of a sample dataset
 
 data
 ├── images
-│   ├── 145_28.jpg
-│   ├── 79_38.jpg
-│   ├── 79_45.jpg
-│   └── 80_7.jpg
+│ ├── 145_28.jpg
+│ ├── 79_38.jpg
+│ ├── 79_45.jpg
+│ └── 80_7.jpg
 └── labels
     ├── 145_28.txt
     ├── 79_38.txt
@@ -173,7 +177,7 @@ yolo.convert_to_yolo(image_path, label_path, output_path)
 ```
 Output:
 
-```python
+```console
 
 # Output BBOX in relative format (Xcenter, Ycenter, Width, Height)
 
@@ -220,7 +224,8 @@ The CLI is still in early stage of development.
 
 The above output can easily be integrated with data registration steps 
 requried to train a Mask-RCNN model using [Detectron2](https://github.com/facebookresearch/detectron2). 
-Check out the example [here](./examples/Imprep_and_Detectron2.ipynb). 
+Check out the example [here](./examples/ImagePrep_for_Detectron2.ipynb). 
+
 
 ##### Other functionalities included in the library:
 - Create a  list of all bounding boxes
