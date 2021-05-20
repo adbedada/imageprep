@@ -1,8 +1,6 @@
 <p align="center"> 
-<img src="./data/logo/logo.svg" style="max-width: 400px;" alt="Logo"/>
-
+<img src="./data/logo/imageprep.svg" style="max-width: 400px;" alt="Logo"/>
 </p>
-----
 
 <p> 
  <a href="https://github.com/adbeda/imageprep/actions/workflows/ci_main.yml" target="_blank">
