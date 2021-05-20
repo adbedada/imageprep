@@ -5,36 +5,47 @@ from imageprep import coco
 cur_dir = path = os.path.dirname(__file__)
 
 # path to images and labels
-image_path = os.path.join(cur_dir, 'data', 'balloon/images/')
-label_path = os.path.join(cur_dir, 'data', 'balloon/abs_label/')
-yolo_label = os.path.join(cur_dir, 'data', 'balloon/yolo_label/')
+image_path = os.path.join(cur_dir,
+                          'data', 'balloon/images/')
+label_path = os.path.join(cur_dir,
+                          'data', 'balloon/abs_label/')
+yolo_label = os.path.join(cur_dir,
+                          'data', 'balloon/yolo_label/')
 
 # one bbox in a single file
-image_file0 = os.path.join(cur_dir, 'data', 'balloon/images/Img_1.jpg')
-label_file0 = os.path.join(cur_dir, 'data', 'balloon/abs_label/Img_1.txt')
+image_file0 = os.path.join(cur_dir, 'data',
+                           'balloon/images/Img_1.jpg')
+label_file0 = os.path.join(cur_dir, 'data',
+                           'balloon/abs_label/Img_1.txt')
 
 # multiple bboxes in a single file
-image_file1 = os.path.join(cur_dir, 'data', 'balloon/images/Img_2.6.141.jpg')
-label_file1 = os.path.join(cur_dir, 'data', 'balloon/abs_label/Img_2.6.141.txt')
+image_file1 = os.path.join(cur_dir, 'data',
+                           'balloon/images/Img_2.6.141.jpg')
+label_file1 = os.path.join(cur_dir, 'data',
+                           'balloon/abs_label/Img_2.6.141.txt')
 
-#yolo label
-label_file2 = os.path.join(cur_dir, 'data', 'balloon/yolo_label/Img_1.txt')
+# yolo label
+label_file2 = os.path.join(cur_dir, 'data',
+                           'balloon/yolo_label/Img_1.txt')
 
 
 def test_bbox_reader():
     bbox_read = coco.bbox_reader(label_file2)
     print(bbox_read)
 
+
 def test_bbox_list():
     """checks bbox loading from files"""
     multiple_bbox_list = coco.bbox_list(label_file1)
-    assert len(multiple_bbox_list) >1
+    assert len(multiple_bbox_list) > 1
 
 
 def test_bbox_coco():
     bbox = coco.bbox_coco(label_file1)
     assert len(bbox) > 1
-    assert sorted(bbox[0].keys()) == ['area', 'bbox', 'category_id', 'id', 'segmentation']
+    assert sorted(bbox[0].keys()) == ['area', 'bbox',
+                                      'category_id',
+                                      'id', 'segmentation']
 
 
 def test_image_metadata():
@@ -45,7 +56,9 @@ def test_image_metadata():
 
 
 def test_folder_metadata():
-    folder_meta = coco.folder_metadata(image_path, label_path, label_ext='.txt')
+    folder_meta = coco.folder_metadata(image_path,
+                                       label_path,
+                                       label_ext='.txt')
     print(folder_meta[0]['image'])
 
 
