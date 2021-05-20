@@ -8,9 +8,10 @@ image_path = os.path.join(cur_dir, 'data', 'tiffs/')
 
 processor = IP(image_path)
 
+
 def test_image_names():
     list_of_names = processor.list_raster_data()
-    assert len(list_of_names) == 4
+    assert len(list_of_names) == 2
     print(list_of_names)
 
 
