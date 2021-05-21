@@ -1,5 +1,0 @@
-click>=7.0.0
-pillow # Use == 6.2.1 if working with Detectron2
-numpy>=1.17.3
-geopandas>=0.8.2
-rasterio>=1.2.0

@@ -8,13 +8,13 @@
  ="CI">
  </a>
  <a href="https://github.com/adbeda/imageprep/blob/master/LICENSE.txt" target="_blank">
- <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="Test">
+ <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="Test">
  </a>
   <a href="https://github.com/adbeda/imageprep" target="_blank">
  <img src="https://img.shields.io/badge/version-0.4-blue" alt="version">
  </a>
   <a href="https://codecov.io/gh/adbeda/imageprep" target="_blank">
- <img src="https://codecov.io/gh/adbeda/imageprep/branch/master/graph/badge.svg" alt="Test">
+ <img src="./data/logo/coverage.svg" alt="Test">
  </a>
  </p>
 
