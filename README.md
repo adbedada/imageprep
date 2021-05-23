@@ -3,18 +3,17 @@
 </p>
 
 <p> 
- <a href="https://github.com/adbeda/imageprep/actions/workflows/ci_main.yml" target="_blank">
- <img src="https://github.com/adbeda/imageprep/actions/workflows/ci_main.yml/badge.svg" alt
- ="CI">
+ <a href="https://github.com/adbeda/imageprep/actions/workflows/ci_imageprep.yml" target="_blank">
+ <img src="https://github.com/adbeda/imageprep/actions/workflows/ci_imageprep.yml/badge.svg" alt="CI">
+ </a>
+ <a href="https://github.com/adbeda/imageprep" target="_blank">
+ <img src="./data/logo/coverage.svg" alt="Coverage">
  </a>
  <a href="https://github.com/adbeda/imageprep/blob/master/LICENSE.txt" target="_blank">
- <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="Test">
+ <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
  </a>
-  <a href="https://github.com/adbeda/imageprep" target="_blank">
+  <a href="https://github.com/adbeda/imageprep" target="_blank">xsxw
  <img src="https://img.shields.io/badge/version-0.4-blue" alt="version">
- </a>
-  <a href="https://codecov.io/gh/adbeda/imageprep" target="_blank">
- <img src="./data/logo/coverage.svg" alt="Test">
  </a>
  </p>
 
