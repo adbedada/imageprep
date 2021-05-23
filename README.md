@@ -12,7 +12,7 @@
  <a href="https://github.com/adbeda/imageprep/blob/master/LICENSE.txt" target="_blank">
  <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
  </a>
-  <a href="https://github.com/adbeda/imageprep" target="_blank">xsxw
+  <a href="https://github.com/adbeda/imageprep" target="_blank">
  <img src="https://img.shields.io/badge/version-0.4-blue" alt="version">
  </a>
  </p>
