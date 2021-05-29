@@ -104,27 +104,31 @@ def resize_images_in_one_folder(path, output_size=256):
                 im_resize.save(f + '.jpg', 'JPEG', quality=90)
 
 
-def resize_images_from_multiple_folders(path, output_size=256):
+def resize_images_from_multiple_folders(in_path, out_path, output_size=256):
     """
      Re-sizes images in multiple folders and saves images in each folder
 
-    :param path: path to the folder containing all folders with images
+    :param in_path: path to the folder containing all folders with images
+    :param out_path: path to save the newly resized images
     :param output_size: image output size
     :return: re-sized images saved in their respective folder
     """
+    extension = ['.jpg', '.png', '.tif', '.jpeg', '.JPEG', '.tiff']
 
-    for folders in os.listdir(path):
-        folder_list = os.path.join(path, folders)
+    for folders in os.listdir(in_path):
+        folder_list = os.path.join(in_path, folders)
+        out_folder = os.path.join(out_path, folders)
+        if not os.path.exists(out_folder):
+            os.makedirs(out_folder)
         for item in os.listdir(folder_list):
-            if item.endswith(".png"):
+            if os.path.splitext(item)[-1] in extension:
                 file = os.path.join(folder_list, item)
-
                 im = Image.open(file)
                 im_resize = im.resize((output_size, output_size),
                                       Image.ANTIALIAS)
-
-                f, e = os.path.splitext(file)
-                im_resize.save(f + '.png', 'JPEG', quality=90)
+                final_output_path = os.path.join(out_folder, item)
+                print(final_output_path)
+                im_resize.save(final_output_path, 'JPEG', quality=90)
 
 
 def list_path_to_files(path_to_folders, output_file_name, save=False):
