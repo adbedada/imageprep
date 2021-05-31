@@ -1,9 +1,10 @@
+"""imageprep.voc."""
 import os
-from imageprep import utils
-from xml.etree.ElementTree import Element, SubElement
-from xml.etree import ElementTree
 from xml.dom import minidom
+from xml.etree import ElementTree
+from xml.etree.ElementTree import Element, SubElement
 
+from imageprep import utils
 
 """
 VOC FORMAT:
@@ -106,7 +107,7 @@ def convert_to_voc(image_path, label_path, voc_path):
         # bounding box
         counter = 0
         # input text filename
-        txt_file = f[:-4] + '.txt'
+        txt_file = f[:-4] + ".txt"
 
         bbox = []
         with open(os.path.join(label_path + txt_file)) as input_file:
@@ -124,13 +125,13 @@ def convert_to_voc(image_path, label_path, voc_path):
                 occluded = SubElement(object, "occluded")
                 occluded.text = str(0)
                 # bounding box
-                bound_box = SubElement(object, 'bndbox')
+                bound_box = SubElement(object, "bndbox")
                 x_min = SubElement(bound_box, "xmin")
                 y_min = SubElement(bound_box, "ymin")
                 x_max = SubElement(bound_box, "xmax")
                 y_max = SubElement(bound_box, "ymax")
 
-                match = line.strip().split(' ')
+                match = line.strip().split(" ")
                 if match:
                     objname.text = str(match[0])
                     xmin = str(match[1])
@@ -145,7 +146,7 @@ def convert_to_voc(image_path, label_path, voc_path):
                 x_max.text = str(bbox[idx][2])
                 y_max.text = str(bbox[idx][3])
         # save
-        outfile = f[:-4] + '.xml'
+        outfile = f[:-4] + ".xml"
         tree = ElementTree.tostring(root, encoding="unicode")
         tree = minidom.parseString(tree).toprettyxml(indent="   ")
         output_file = open(voc_path + outfile, "w")

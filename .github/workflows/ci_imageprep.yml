@@ -36,6 +36,9 @@ jobs:
     - name: Run Tox
       run: |
         tox -e py
+    - name: Run pre-commit
+      if: matrix.python-version == 3.7
+      run: pre-commit run --all-files
     - name: Cache conda
       uses: actions/cache@v2
       env:

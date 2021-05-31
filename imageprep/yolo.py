@@ -1,5 +1,7 @@
-import re
+"""imageprep.yolo."""
 import os
+import re
+
 from PIL import Image
 
 
@@ -13,8 +15,8 @@ def yolo_label_format(size, box):
     :param box: the four corners of the bounding box as a list
     :return: YOLO style labels
     """
-    dw = 1. / size[0]
-    dh = 1. / size[1]
+    dw = 1.0 / size[0]
+    dh = 1.0 / size[1]
 
     x = (box[0] + box[2]) / 2.0
     y = (box[1] + box[3]) / 2.0
@@ -45,15 +47,15 @@ def reverse_yolo_to_absolute(size, box):
     # ymax = int((dw * box[3]) + ymin)
 
     x, y, w, h = box
-    dw = 1./size[0]
-    dh = 1./size[1]
-    w0 = w/dw
-    h0 = h/dh
-    x_center = x/dw
-    y_center = y/dh
+    dw = 1.0 / size[0]
+    dh = 1.0 / size[1]
+    w0 = w / dw
+    h0 = h / dh
+    x_center = x / dw
+    y_center = y / dh
 
-    xmin, xmax = x_center - w0/2., x_center + w0/2.
-    ymin, ymax = y_center - h0/2., y_center + h0/2.
+    xmin, xmax = x_center - w0 / 2.0, x_center + w0 / 2.0
+    ymin, ymax = y_center - h0 / 2.0, y_center + h0 / 2.0
 
     return int(xmin), int(ymin), int(xmax), int(ymax)
 
@@ -70,11 +72,11 @@ def convert_to_yolo(image_path, input_path, output_path):
 
     for file in os.listdir(input_path):
 
-        if file.endswith('.txt'):
+        if file.endswith(".txt"):
             basename = os.path.splitext(file)[0]
             filename = basename + ".jpg"
             input_file = open(os.path.join(input_path, file))
-            file = basename + '.txt'
+            file = basename + ".txt"
             output_file = open(os.path.join(output_path, file), "w")
             file_path = os.path.join(image_path, filename)
 
@@ -103,8 +105,7 @@ def convert_to_yolo(image_path, input_path, output_path):
                     size = im.size
                     bb = yolo_label_format(size, b)
 
-                    output_file.write("0" + " " + " ".join(
-                        [str(a) for a in bb]) + "\n")
+                    output_file.write("0" + " " + " ".join([str(a) for a in bb]) + "\n")
 
             output_file.close()
             input_file.close()
@@ -121,16 +122,16 @@ def convert_from_yolo(image_path, input_path, output_path):
     """
     for file in os.listdir(input_path):
 
-        if file.endswith('.txt'):
+        if file.endswith(".txt"):
             basename = os.path.splitext(file)[0]
             filename = basename + ".jpg"
             input_file = open(os.path.join(input_path, file))
-            file = basename + '.txt'
+            file = basename + ".txt"
             output_file = open(os.path.join(output_path, file), "w")
             file_path = os.path.join(image_path, filename)
 
             for line in input_file.readlines():
-                match = line.strip().split(' ')
+                match = line.strip().split(" ")
 
                 if match:
                     objcls = match[0]
@@ -144,8 +145,9 @@ def convert_from_yolo(image_path, input_path, output_path):
                     size = im.size
                     bb = reverse_yolo_to_absolute(size, b)
 
-                    output_file.write(objcls + " " + " ".join(
-                        [str(a) for a in list(bb)]) + "\n")
+                    output_file.write(
+                        objcls + " " + " ".join([str(a) for a in list(bb)]) + "\n"
+                    )
 
             output_file.close()
             input_file.close()

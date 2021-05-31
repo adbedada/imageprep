@@ -2,7 +2,7 @@
 <img src="./data/logo/imageprep.svg" style="max-width: 400px;" alt="Logo"/>
 </p>
 
-<p> 
+<p align="center"> 
  <a href="https://github.com/adbeda/imageprep/actions/workflows/ci_imageprep.yml" target="_blank">
  <img src="https://github.com/adbeda/imageprep/actions/workflows/ci_imageprep.yml/badge.svg" alt="CI">
  </a>
